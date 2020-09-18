@@ -7,7 +7,7 @@ use Owlting\OwlPay\Exceptions\InvalidRequestException;
 use Owlting\OwlPay\Objects\Interfaces\BaseInterface;
 
 
-abstract class BaseObjects implements \ArrayAccess, \Countable, BaseInterface, \JsonSerializable
+abstract class BaseObject implements \ArrayAccess, \Countable, BaseInterface, \JsonSerializable
 {
     const CREATE = 'create';
     const SHOW_LIST = 'list';
@@ -97,6 +97,7 @@ abstract class BaseObjects implements \ArrayAccess, \Countable, BaseInterface, \
 
     protected function getUrl($event, $routes = [])
     {
+        /** @var array $url_map */
         $url = $this::$url_map[$event];
 
         if (empty($url)) {

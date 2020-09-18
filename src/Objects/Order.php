@@ -11,18 +11,18 @@ use Owlting\OwlPay\Objects\Traits\CreateTrait;
 use Owlting\OwlPay\Objects\Traits\DetailTrait;
 use Owlting\OwlPay\Objects\Traits\ListTrait;
 
-class Order extends BaseObjects implements CreateInterface
+class Order extends BaseObject implements CreateInterface
 {
     use CreateTrait;
     use ListTrait;
     use DetailTrait;
 
-    CONST PAYOUT = 'payout';
+    const VENDOR_REQUEST_PAY = 'vendor_request_pay';
 
     protected static $url_map = [
         self::CREATE => '/api/platform/orders',
         self::SHOW_DETAIL => '/api/platform/orders/{order_token}',
-        self::PAYOUT => '/api/platform/orders/{order_token}/vendor_request_pay',
+        self::VENDOR_REQUEST_PAY => '/api/platform/orders/{order_token}/vendor_request_pay',
     ];
 
     protected static $create_validator = [
@@ -70,12 +70,20 @@ class Order extends BaseObjects implements CreateInterface
                 $validates = [];
         }
 
-        $validator = Validator::make($input, $validates);
-
-        if ($validator->fails()) {
-            throw new MissingParameterException();
+        if (class_exists(Validator::class)) {
+            $validator = Validator::make($input, $validates);
+            if ($validator->fails()) {
+                throw new MissingParameterException();
+            }
+            return $validator->validated();
+        } else {
+            foreach ($validates as $key => $validate) {
+                if (in_array('required', explode('|', $validate), true)) {
+                    if (!in_array($key, $input, true)) {
+                        throw new MissingParameterException();
+                    }
+                }
+            }
         }
-
-        return $validator->validated();
     }
 }
