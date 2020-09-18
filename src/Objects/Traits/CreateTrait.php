@@ -2,7 +2,6 @@
 
 namespace Owlting\OwlPay\Objects\Traits;
 
-use GuzzleHttp\Client;
 use Owlting\OwlPay\Exceptions\InvalidRequestException;
 use Owlting\OwlPay\Exceptions\MissingParameterException;
 
@@ -37,6 +36,6 @@ trait CreateTrait
 
         $this->_values = $this->_lastResponse['data'] ?? [];
 
-        return $this->_lastResponse;
+        return $this;
     }
 }

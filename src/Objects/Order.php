@@ -7,14 +7,13 @@ namespace Owlting\OwlPay\Objects;
 use Illuminate\Support\Facades\Validator;
 use Owlting\OwlPay\Exceptions\MissingParameterException;
 use Owlting\OwlPay\Objects\Interfaces\CreateInterface;
+use Owlting\OwlPay\Objects\Interfaces\DetailInterface;
 use Owlting\OwlPay\Objects\Traits\CreateTrait;
 use Owlting\OwlPay\Objects\Traits\DetailTrait;
-use Owlting\OwlPay\Objects\Traits\ListTrait;
 
-class Order extends BaseObject implements CreateInterface
+class Order extends BaseObject implements CreateInterface, DetailInterface
 {
     use CreateTrait;
-    use ListTrait;
     use DetailTrait;
 
     const VENDOR_REQUEST_PAY = 'vendor_request_pay';
