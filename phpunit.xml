@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./app</directory>
+        </whitelist>
+    </filter>
+    <php>
+        <env name="OWLPAY_API_URL" value="http://owlpay.owlting.ericworker"/>
+<!--        <env name="OWLPAY_APPLICATION_SECRET" value="pk_test_wy18haV6tgXLabbML4LV9LYqYVQTQHjGPlLXqbZ3tSIpktfSxG7t4A24B4FPcf4qxenrpE9dAxEDlMaJK7G99uICzR34dH4GHGyFaCLb"/>-->
+    </php>
+</phpunit>
