@@ -3,7 +3,7 @@
 namespace Owlting\OwlPay\Objects;
 
 use GuzzleHttp\Client;
-use Owlting\OwlPay\Exceptions\InvalidRequestException;
+use Owlting\OwlPay\Exceptions\RouteNotFoundException;
 use Owlting\OwlPay\Objects\Interfaces\BaseInterface;
 
 
@@ -95,13 +95,19 @@ abstract class BaseObject implements \ArrayAccess, \Countable, BaseInterface, \J
         return $this->_values;
     }
 
+    /**
+     * @param $event
+     * @param array $routes
+     * @return string
+     * @throws RouteNotFoundException
+     */
     protected function getUrl($event, $routes = [])
     {
         /** @var array $url_map */
         $url = $this::$url_map[$event];
 
         if (empty($url)) {
-            throw new InvalidRequestException();
+            throw new RouteNotFoundException();
         }
 
         foreach ($routes as $key => $route) {
