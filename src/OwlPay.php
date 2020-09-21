@@ -2,10 +2,21 @@
 
 namespace Owlting\OwlPay;
 
+use Owlting\OwlPay\Exceptions\NotFoundException;
+use Owlting\OwlPay\Exceptions\OwlPayException;
+use Owlting\OwlPay\Exceptions\UnauthorizedException;
+use Owlting\OwlPay\Exceptions\UnknownException;
+use Owlting\OwlPay\Objects\BaseObject;
 use Owlting\OwlPay\Objects\Order;
 
 class OwlPay
 {
+    protected static $errors_map = [
+        -1 => UnknownException::class,
+        401 => UnauthorizedException::class,
+        404 => NotFoundException::class,
+    ];
+
     /**
      * @param $order_serial
      * @param $currency
@@ -35,6 +46,8 @@ class OwlPay
 
         $order->create($input);
 
+        $this->checkResponse($order);
+
         return $order;
     }
 
@@ -47,6 +60,34 @@ class OwlPay
     {
         $order = new Order();
 
-        return $order->detail($order_token);
+        $order->detail($order_token);
+
+        $this->checkResponse($order);
+
+        return $order;
+    }
+
+    /**
+     * @param BaseObject $item
+     * @return null
+     * @throws UnknownException
+     * @throws UnauthorizedException
+     * @throws NotFoundException
+     * @throws OwlPayException
+     */
+    protected function checkResponse(BaseObject $item)
+    {
+        $response = $item->getLastResponse();
+
+        $response_status = $response['status'] ?? -1;
+
+        /** @var OwlPayException|UnknownException|UnauthorizedException|NotFoundException $error */
+        $error = self::$errors_map[$response_status] ?? null;
+
+        if ($error !== null) {
+            $error = new $error;
+            $error->setResponse($response);
+            throw $error;
+        }
     }
 }

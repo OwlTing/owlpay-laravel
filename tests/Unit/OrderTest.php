@@ -2,17 +2,13 @@
 
 namespace Tests\Unit;
 
+use Owlting\OwlPay\Exceptions\UnauthorizedException;
 use Owlting\OwlPay\OwlPay;
 use Tests\TestCase;
 
 
 class OrderTest extends TestCase
 {
-    public function test_example()
-    {
-        $this->assertTrue(true);
-    }
-
     public function test_create_order()
     {
         //Arrange
@@ -39,6 +35,20 @@ class OrderTest extends TestCase
         $this->assertArrayHasKey('description', $response);
     }
 
+    public function test_create_order_unauthorized()
+    {
+        //Arrange
+        $body = self::$unauthorizedMockData;
+        $this->mockGuzzle('post', $body);
+
+        $this->expectException(UnauthorizedException::class);
+
+        //Act
+        $target = new OwlPay();
+        $response = $target->createOrder('test', 'TWD', 1000);
+        //Assert
+    }
+
     public function test_show_detail()
     {
         //Arrange
@@ -63,5 +73,21 @@ class OrderTest extends TestCase
         $this->assertArrayHasKey('events', $response);
         $this->assertArrayHasKey('order_token', $response);
         $this->assertArrayHasKey('description', $response);
+    }
+
+
+    public function test_show_detail_unauthorized()
+    {
+        //Arrange
+        $body = self::$unauthorizedMockData;
+        $this->mockGuzzle('get', $body);
+
+        $this->expectException(UnauthorizedException::class);
+
+        //Act
+        $target = new OwlPay();
+        $response = $target->getOrderDetail('ord_799956254af05adb86b0fa02bf7dbce3e351e5cb2f7d8c27dfd8745c36a7c40e');
+
+        //Assert
     }
 }

@@ -51,6 +51,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         'status' => 200,
     ];
 
+    protected static $unauthorizedMockData = [
+        'status' => 401,
+        'msg' => 'Unauthorized.',
+    ];
+
     protected function mockGuzzle($method, $body)
     {
         $guzzleMock = m::mock(Client::class);
