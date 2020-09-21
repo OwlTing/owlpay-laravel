@@ -37,7 +37,12 @@ Trait ListTrait
 
         $this->_lastResponse = $response_data;
 
-        $this->_values = $this->_lastResponse['data'] ?? [];
+        $data = [
+            'data' => $this->_lastResponse['data'] ?? [],
+            'pagination' => $this->_lastResponse['pagination'] ?? [],
+        ];
+
+        $this->_values = $data;
 
         return $this;
     }
