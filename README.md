@@ -5,8 +5,7 @@ applications written in the PHP language.
 
 ## Requirements
 
-PHP 5.6.0 and later.
-
+PHP 7.1 and later.
 
 ## Composer
 
@@ -37,15 +36,25 @@ If you use Composer, these dependencies should be handled automatically. If you 
 
 ## Getting Started
 
+add secret in .env
+
+```
+OWLPAY_API_URL=http://owlpay.owlting.localhost
+OWLPAY_APPLICATION_SECRET=MY_SECRET.....
+```
+
+
 Simple usage looks like:
 
 ```php
-$owlpay = new \Owlting\OwlPayClient('pk_test_TRd7T4JHznaKYK2mUQznHclSnAaFJJHlbo6iILpNKKZirJdzRBw8qC25gYUeycc4DCidip58f9NBcy12717Fkho8b76buqUI1Mtlme2p');
-$order = $owlpay->orders->create([
-    'order_serial' => 'OWLP123442123',
-    'total' => 100,
-    'currency' => 'TWD'
-]);
-echo $order;
+$order_serial = 'OWL0001';
+$currency = 'TWD';
+$meta_data = []; 
+
+\Owlting\OwlPay\Facades\OwlPay::createOrder(
+    $order_serial,
+    $currency,
+    $meta_data
+);
 ```
 
