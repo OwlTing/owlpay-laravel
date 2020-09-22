@@ -1,6 +1,6 @@
 <?php
 
-namespace Owlting\OwlPay;
+namespace Owlting\OwlPay\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 

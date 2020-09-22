@@ -74,7 +74,7 @@ class Order extends BaseObject implements CreateInterface, DetailInterface
             if ($validator->fails()) {
                 throw new MissingParameterException();
             }
-            return $validator->validated();
+            return $input;
         } else {
             foreach ($validates as $key => $validate) {
                 if (in_array('required', explode('|', $validate), true)) {
