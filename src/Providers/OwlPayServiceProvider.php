@@ -6,13 +6,16 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class OwlPayServiceProvider extends ServiceProvider
 {
-    /**
-     *  Boot
-     */
     public function boot()
     {
         parent::boot();
+
         $this->addConfig();
+    }
+
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../../config/owlpay.php', 'owlpay');
     }
 
     /**
