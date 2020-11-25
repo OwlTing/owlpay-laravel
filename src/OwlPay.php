@@ -8,6 +8,7 @@ use Owlting\OwlPay\Exceptions\UnauthorizedException;
 use Owlting\OwlPay\Exceptions\UnknownException;
 use Owlting\OwlPay\Objects\BaseObject;
 use Owlting\OwlPay\Objects\Order;
+use Owlting\OwlPay\Objects\VendorInvite;
 
 class OwlPay
 {
@@ -65,6 +66,17 @@ class OwlPay
         $this->checkResponse($order);
 
         return $order;
+    }
+
+    public function createVendorInvite($args)
+    {
+        $vendorInvite = new VendorInvite();
+
+        $vendorInvite->create($args);
+
+        $this->checkResponse($vendorInvite);
+
+        return $vendorInvite;
     }
 
     /**

@@ -9,15 +9,15 @@ trait CreateTrait
 {
 
     /**
-     * @param $order
+     * @param $value
      * @throws MissingParameterException
      * @throws InvalidRequestException
      */
-    public function create($order)
+    public function create($value)
     {
         $url = self::getUrl(self::CREATE);
 
-        $input = $this::validate(self::CREATE, $order);
+        $input = $this::validate(self::CREATE, $value);
 
         $response = $this->_client->post($url, [
             'headers' => [
