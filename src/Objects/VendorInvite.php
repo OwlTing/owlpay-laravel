@@ -17,7 +17,7 @@ class VendorInvite extends BaseObject implements CreateInterface, DetailInterfac
     use DetailTrait;
 
     protected static $url_map = [
-        self::CREATE => '/api/platform/vendor_invite/owlpay_connect_url',
+        self::CREATE => '/api/platform/vendor_invite',
 //        self::SHOW_DETAIL => '/api/platform/orders/{order_token}',
     ];
 
