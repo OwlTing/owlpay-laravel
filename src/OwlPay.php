@@ -23,7 +23,7 @@ class OwlPay
 
     public function __call($name, $args)
     {
-        $object = __NAMESPACE__ . '\\objects\\' . $this->camelize($name);
+        $object = __NAMESPACE__ . '\\Objects\\' . $this->camelize($name);
 
         if (!class_exists($object))
             throw new self::$errors_map[10404];

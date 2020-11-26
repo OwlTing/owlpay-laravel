@@ -17,8 +17,8 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
     const INVITE = 'invite';
 
     protected static $url_map = [
-        self::CREATE => '/api/platform/vendors',
-        self::SHOW_DETAIL => '/api/platform/vendors/{vendor_uuid}',
+//        self::CREATE => '/api/platform/vendors',
+//        self::SHOW_DETAIL => '/api/platform/vendors/{vendor_uuid}',
         self::INVITE => '/api/platform/vendor_invite',
     ];
 
@@ -87,8 +87,34 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
         }
     }
 
-    public function invite($email, $args = [], $meta_data = [])
+    public function invite($email, $args = [])
     {
-        // TODO: Implement invite() method.
+        $invite_input = array_merge($args, [
+            'email' => $email
+        ]);
+
+        $url = self::getUrl(self::INVITE);
+
+        dd($invite_input);
+        $input = $this::validate(self::INVITE, $invite_input);
+
+        $response = $this->_client->post($url, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . config('owlpay.application_secret'),
+            ],
+            'form_params' => $input
+        ]);
+
+        $response_data = $this->_interpretResponse(
+            $response->getBody()->getContents(),
+            $response->getStatusCode(),
+            $response->getHeaders()
+        );
+
+        $this->_lastResponse = $response_data;
+
+        $this->_values = $this->_lastResponse['data'] ?? [];
+
+        return $this;
     }
 }

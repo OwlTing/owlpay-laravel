@@ -3,5 +3,5 @@ namespace Owlting\OwlPay\Objects\Interfaces;
 
 interface InviteInterface
 {
-    public function invite($email, $args = [], $meta_data = []);
+    public function invite($email, $args = []);
 }
