@@ -1,5 +1,5 @@
 {
-    "name": "owlting/owlpay-php",
+    "name": "Owlting/owlpay-php",
     "description": "Owlpay SDK.",
     "type": "library",
     "authors": [
@@ -26,7 +26,7 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "^3.5"
+        "orchestra/testbench": "~3.6.7 || ~3.7.8 || ~3.8.6 || ^4.8 || ^5.2 || ^6.0"
     },
     "extra": {
         "laravel": {

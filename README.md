@@ -5,14 +5,14 @@ applications written in the PHP language.
 
 ## Requirements
 
-PHP 7 and later.
+PHP 7.1 and later.
 
 ## Composer
 
 You can install the bindings via [Composer](http://getcomposer.org/). Run the following command:
 
 ```bash
-$ composer require owlting/owlpay-php
+composer require owlting/owlpay-php
 ```
 
 To use the bindings, use Composer's [autoload](https://getcomposer.org/doc/01-basic-usage.md#autoloading):
@@ -29,36 +29,31 @@ The bindings require the following extensions in order to work properly:
 -   [`json`](https://secure.php.net/manual/en/book.json.php)
 -   [`mbstring`](https://secure.php.net/manual/en/book.mbstring.php) (Multibyte String)
 
-If you use Composer, these dependencies should be handled automatically. If you install manually, you'll want to make sure these extensions are available.
+If you use Composer, these dependencies should be handled automatically. If you install manually, you'll want to make sure that these extensions are available.
 
 ## Documentation
 
 
 ## Getting Started
 
-Also, if you're using Laravel, you can publish and configure the environment keys in your application.
-```bash
-$ php artisan vendor:publish --provider="Owlting\OwlPay\Providers\OwlPayServiceProvider"
-```
+add secret in .env
 
-By default, the `.env` keys shall be:
 ```
 OWLPAY_API_URL=http://owlpay.owlting.localhost
 OWLPAY_APPLICATION_SECRET=MY_SECRET.....
 ```
 
-## Usage
+
+Simple usage looks like:
 
 ```php
 $order_serial = 'OWL0001';
 $currency = 'TWD';
-$total = 100;
 $meta_data = []; 
 
 \Owlting\OwlPay\Facades\OwlPay::createOrder(
     $order_serial,
     $currency,
-    $total,
     $meta_data
 );
 ```

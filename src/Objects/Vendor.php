@@ -1,30 +1,34 @@
 <?php
-
-
 namespace Owlting\OwlPay\Objects;
-
 
 use Illuminate\Support\Facades\Validator;
 use Owlting\OwlPay\Exceptions\MissingParameterException;
 use Owlting\OwlPay\Objects\Interfaces\CreateInterface;
 use Owlting\OwlPay\Objects\Interfaces\DetailInterface;
+use Owlting\OwlPay\Objects\Interfaces\InviteInterface;
 use Owlting\OwlPay\Objects\Traits\CreateTrait;
 use Owlting\OwlPay\Objects\Traits\DetailTrait;
 
-class VendorInvite extends BaseObject implements CreateInterface, DetailInterface
+class Vendor extends BaseObject implements CreateInterface, DetailInterface, InviteInterface
 {
     use CreateTrait;
     use DetailTrait;
 
+    const INVITE = 'invite';
+
     protected static $url_map = [
-        self::CREATE => '/api/platform/vendor_invite',
-//        self::SHOW_DETAIL => '/api/platform/orders/{order_token}',
+        self::CREATE => '/api/platform/vendors',
+        self::SHOW_DETAIL => '/api/platform/vendors/{vendor_uuid}',
+        self::INVITE => '/api/platform/vendor_invite',
     ];
 
     protected static $create_validator = [
-        'is_owlpay_send_email' => 'boolean',
-        'email' => 'email',
-        'vendor_uuid' => '',
+//        'order_serial' => 'required',
+//        'currency' => 'required',
+//        'total' => 'required',
+//        'description' => 'nullable',
+//        'is_force_create' => 'nullable|boolean',
+//        'vendor_uuid' => 'nullable|string',
         'meta_data' => 'nullable|array',
     ];
 
@@ -35,30 +39,33 @@ class VendorInvite extends BaseObject implements CreateInterface, DetailInterfac
         'sort_by' => 'nullable',
     ];
 
+    protected static $invite_validator = [
+        'is_owlpay_send_email' => 'boolean',
+        'email' => 'email',
+        'vendor_uuid' => '',
+        'meta_data' => 'nullable|array',
+    ];
+
     /**
-     * VendorInvite constructor.
+     * Vendor constructor.
      */
     public function __construct()
     {
         parent::__construct();
     }
 
-
-    /**
-     * @param $event
-     * @param $input
-     * @return array|mixed
-     * @throws MissingParameterException
-     */
     public static function validate($event, $input)
     {
         switch ($event) {
             case self::CREATE:
                 $validates = self::$create_validator;
                 break;
-//            case self::SHOW_LIST:
-//                $validates = self::$list_validator;
-//                break;
+            case self::SHOW_LIST:
+                $validates = self::$list_validator;
+                break;
+            case self::INVITE:
+                $validates = self::$invite_validator;
+                break;
             default:
                 $validates = [];
         }
@@ -78,5 +85,10 @@ class VendorInvite extends BaseObject implements CreateInterface, DetailInterfac
                 }
             }
         }
+    }
+
+    public function invite($email, $args = [], $meta_data = [])
+    {
+        // TODO: Implement invite() method.
     }
 }
