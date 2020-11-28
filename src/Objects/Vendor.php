@@ -1,37 +1,34 @@
 <?php
-
-
 namespace Owlting\OwlPay\Objects;
-
 
 use Illuminate\Support\Facades\Validator;
 use Owlting\OwlPay\Exceptions\MissingParameterException;
 use Owlting\OwlPay\Objects\Interfaces\CreateInterface;
 use Owlting\OwlPay\Objects\Interfaces\DetailInterface;
+use Owlting\OwlPay\Objects\Interfaces\InviteInterface;
 use Owlting\OwlPay\Objects\Traits\CreateTrait;
 use Owlting\OwlPay\Objects\Traits\DetailTrait;
 
-class Order extends BaseObject implements CreateInterface, DetailInterface
+class Vendor extends BaseObject implements CreateInterface, DetailInterface, InviteInterface
 {
     use CreateTrait;
     use DetailTrait;
 
-    const VENDOR_REQUEST_PAY = 'vendor_request_pay';
+    const INVITE = 'invite';
 
     protected static $url_map = [
-        self::CREATE => '/api/platform/orders',
-        self::SHOW_DETAIL => '/api/platform/orders/{order_token}',
-        self::VENDOR_REQUEST_PAY => '/api/platform/orders/{order_token}/vendor_request_pay',
+//        self::CREATE => '/api/platform/vendors',
+//        self::SHOW_DETAIL => '/api/platform/vendors/{vendor_uuid}',
+        self::INVITE => '/api/platform/vendor_invite',
     ];
 
     protected static $create_validator = [
-        'order_serial' => 'required',
-        'currency' => 'required',
-        'total' => 'required',
-        'description' => 'nullable',
-        'is_force_create' => 'nullable|boolean',
-        'customer_vendor_uuid' => 'nullable|string',
-        'vendor_uuid' => 'nullable|string',
+//        'order_serial' => 'required',
+//        'currency' => 'required',
+//        'total' => 'required',
+//        'description' => 'nullable',
+//        'is_force_create' => 'nullable|boolean',
+//        'vendor_uuid' => 'nullable|string',
         'meta_data' => 'nullable|array',
     ];
 
@@ -42,21 +39,21 @@ class Order extends BaseObject implements CreateInterface, DetailInterface
         'sort_by' => 'nullable',
     ];
 
+    protected static $invite_validator = [
+        'is_owlpay_send_email' => 'boolean',
+        'email' => 'email',
+        'vendor_uuid' => '',
+        'meta_data' => 'nullable|array',
+    ];
+
     /**
-     * Order constructor.
+     * Vendor constructor.
      */
     public function __construct()
     {
         parent::__construct();
     }
 
-
-    /**
-     * @param $event
-     * @param $input
-     * @return array|mixed
-     * @throws MissingParameterException
-     */
     public static function validate($event, $input)
     {
         switch ($event) {
@@ -65,6 +62,9 @@ class Order extends BaseObject implements CreateInterface, DetailInterface
                 break;
             case self::SHOW_LIST:
                 $validates = self::$list_validator;
+                break;
+            case self::INVITE:
+                $validates = self::$invite_validator;
                 break;
             default:
                 $validates = [];
@@ -85,5 +85,35 @@ class Order extends BaseObject implements CreateInterface, DetailInterface
                 }
             }
         }
+    }
+
+    public function invite($email, $args = [])
+    {
+        $invite_input = array_merge($args, [
+            'email' => $email
+        ]);
+
+        $url = self::getUrl(self::INVITE);
+
+        $input = $this::validate(self::INVITE, $invite_input);
+
+        $response = $this->_client->post($url, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . config('owlpay.application_secret'),
+            ],
+            'form_params' => $input
+        ]);
+
+        $response_data = $this->_interpretResponse(
+            $response->getBody()->getContents(),
+            $response->getStatusCode(),
+            $response->getHeaders()
+        );
+
+        $this->_lastResponse = $response_data;
+
+        $this->_values = $this->_lastResponse['data'] ?? [];
+
+        return $this;
     }
 }

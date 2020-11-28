@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
+    use MockDataTrait;
 
     protected function setUp(): void
     {
@@ -27,34 +28,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('owlpay.application_secret', env('OWLPAY_APPLICATION_SECRET'));
         $app['config']->set('owlpay.api_url', env('OWLPAY_API_URL'));
     }
-
-    protected static $orderMockData = [
-        'data' => [
-            'status' => 'owlpay.received_order123123',
-            'currency' => 'TWD',
-            "order_serial" => "test",
-            "total" => 1000,
-            "is_paid" => false,
-            "paid_time_at" => null,
-            "notified_time_at" => null,
-            "meta_data" => [],
-            'events' => [
-                "type" => "order_receive",
-                "block_number" => null,
-                "transaction_hash" => null,
-                "created_at" => "2020-09-18T09:37:22+00:00",
-            ],
-            'order_token' => 'ord_5d4f192692e44fb36ae4f8a4e5d0f01f377e4ae0caf2f1afc8e60d01b87ab9b5',
-            'description' => null,
-
-        ],
-        'status' => 200,
-    ];
-
-    protected static $unauthorizedMockData = [
-        'status' => 401,
-        'msg' => 'Unauthorized.',
-    ];
 
     protected function mockGuzzle($method, $body)
     {

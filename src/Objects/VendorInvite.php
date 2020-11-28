@@ -11,27 +11,20 @@ use Owlting\OwlPay\Objects\Interfaces\DetailInterface;
 use Owlting\OwlPay\Objects\Traits\CreateTrait;
 use Owlting\OwlPay\Objects\Traits\DetailTrait;
 
-class Order extends BaseObject implements CreateInterface, DetailInterface
+class VendorInvite extends BaseObject implements CreateInterface, DetailInterface
 {
     use CreateTrait;
     use DetailTrait;
 
-    const VENDOR_REQUEST_PAY = 'vendor_request_pay';
-
     protected static $url_map = [
-        self::CREATE => '/api/platform/orders',
-        self::SHOW_DETAIL => '/api/platform/orders/{order_token}',
-        self::VENDOR_REQUEST_PAY => '/api/platform/orders/{order_token}/vendor_request_pay',
+        self::CREATE => '/api/platform/vendor_invite',
+//        self::SHOW_DETAIL => '/api/platform/orders/{order_token}',
     ];
 
     protected static $create_validator = [
-        'order_serial' => 'required',
-        'currency' => 'required',
-        'total' => 'required',
-        'description' => 'nullable',
-        'is_force_create' => 'nullable|boolean',
-        'customer_vendor_uuid' => 'nullable|string',
-        'vendor_uuid' => 'nullable|string',
+        'is_owlpay_send_email' => 'boolean',
+        'email' => 'email',
+        'vendor_uuid' => '',
         'meta_data' => 'nullable|array',
     ];
 
@@ -43,7 +36,7 @@ class Order extends BaseObject implements CreateInterface, DetailInterface
     ];
 
     /**
-     * Order constructor.
+     * VendorInvite constructor.
      */
     public function __construct()
     {
@@ -63,9 +56,9 @@ class Order extends BaseObject implements CreateInterface, DetailInterface
             case self::CREATE:
                 $validates = self::$create_validator;
                 break;
-            case self::SHOW_LIST:
-                $validates = self::$list_validator;
-                break;
+//            case self::SHOW_LIST:
+//                $validates = self::$list_validator;
+//                break;
             default:
                 $validates = [];
         }
