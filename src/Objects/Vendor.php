@@ -95,7 +95,6 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
 
         $url = self::getUrl(self::INVITE);
 
-        dd($invite_input);
         $input = $this::validate(self::INVITE, $invite_input);
 
         $response = $this->_client->post($url, [

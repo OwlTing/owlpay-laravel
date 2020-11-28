@@ -30,6 +30,7 @@ class Order extends BaseObject implements CreateInterface, DetailInterface
         'total' => 'required',
         'description' => 'nullable',
         'is_force_create' => 'nullable|boolean',
+        'customer_vendor_uuid' => 'nullable|string',
         'vendor_uuid' => 'nullable|string',
         'meta_data' => 'nullable|array',
     ];

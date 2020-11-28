@@ -36,6 +36,7 @@ class OwlPay
      * @param $currency
      * @param $total
      * @param array $meta_data
+     * @param null $customer_vendor_uuid
      * @param null $vendor_uuid
      * @param null $description
      * @param bool $is_force_create
@@ -47,13 +48,21 @@ class OwlPay
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function createOrder($order_serial, $currency, $total, $meta_data = [], $vendor_uuid = null, $description = null, $is_force_create = false)
+    public function createOrder($order_serial,
+                                $currency,
+                                $total,
+                                $meta_data = [],
+                                $customer_vendor_uuid = null,
+                                $vendor_uuid = null,
+                                $description = null,
+                                $is_force_create = false)
     {
         $input = compact(
             'order_serial',
             'currency',
             'total',
             'meta_data',
+            'customer_vendor_uuid',
             'vendor_uuid',
             'description',
             'is_force_create'

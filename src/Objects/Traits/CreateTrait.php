@@ -10,8 +10,7 @@ trait CreateTrait
 
     /**
      * @param $value
-     * @throws MissingParameterException
-     * @throws InvalidRequestException
+     * @return CreateTrait
      */
     public function create($value)
     {
