@@ -54,12 +54,14 @@ $order_serial = 'OWL0001';
 $currency = 'TWD';
 $total = 100;
 $meta_data = []; 
+$customer_vendor_uuid = 'owlnest-vendor-uuid';
 
 \Owlting\OwlPay\Facades\OwlPay::createOrder(
     $order_serial,
     $currency,
     $total,
-    $meta_data
+    $meta_data,
+    $customer_vendor_uuid
 );
 ```
 
