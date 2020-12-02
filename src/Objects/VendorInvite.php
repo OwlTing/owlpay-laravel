@@ -25,7 +25,7 @@ class VendorInvite extends BaseObject implements CreateInterface, DetailInterfac
         'is_owlpay_send_email' => 'boolean',
         'customer_vendor_uuid' => 'nullable|string',
         'email' => 'email',
-        'vendor_uuid' => '',
+        'vendor_uuid' => 'nullable|string',
         'meta_data' => 'nullable|array',
     ];
 
