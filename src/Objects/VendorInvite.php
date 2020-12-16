@@ -23,9 +23,19 @@ class VendorInvite extends BaseObject implements CreateInterface, DetailInterfac
 
     protected static $create_validator = [
         'is_owlpay_send_email' => 'boolean',
-        'customer_vendor_uuid' => 'nullable|string',
-        'email' => 'email',
-        'vendor_uuid' => 'nullable|string',
+        'email' => 'nullable|email',
+        'vendor.name' => 'nullable|string',
+        'vendor.uuid' => 'nullable|string',
+        'vendor.customer_vendor_uuid' => 'nullable|string',
+        'vendor.email' => 'nullable|email',
+        'vendor.remit_info.country_iso' => 'nullable',
+        'vendor.remit_info.type' => 'nullable',
+        'vendor.remit_info.bank_name' => 'nullable',
+        'vendor.remit_info.bank_subname' => 'nullable',
+        'vendor.remit_info.bank_code' => 'nullable',
+        'vendor.remit_info.bank_subcode' => 'nullable',
+        'vendor.remit_info.bank_account' => 'nullable',
+        'vendor.remit_info.bank_account_name' => 'nullable',
         'meta_data' => 'nullable|array',
     ];
 
