@@ -55,13 +55,29 @@ $currency = 'TWD';
 $total = 100;
 $meta_data = []; 
 $customer_vendor_uuid = 'owlnest-vendor-uuid';
+$vendor = [
+    'name' => $hotel->name,
+    'customer_vendor_uuid' => $hotel->hotel_uuid,
+    'email' => $hotel_email,
+    'description' => $hotel->name,
+    'remit_info' => [
+        'country_iso' => 'TW',
+        'bank_name' => 'Bank Name",
+        'bank_subname' => 'Bank SubName",
+        'bank_code' => "1234",
+        'bank_subcode' => "001234",
+        'bank_account' => "1234567890986",
+        'bank_account_name' => "Owlting Group",
+    ]
+];
 
 \Owlting\OwlPay\Facades\OwlPay::createOrder(
     $order_serial,
     $currency,
     $total,
-    $meta_data,
-    $customer_vendor_uuid
+    $desciption,
+    $vendor,
+    $meta_data
 );
 ```
 
