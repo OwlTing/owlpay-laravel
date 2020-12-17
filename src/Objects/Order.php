@@ -87,17 +87,18 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
         if (class_exists(Validator::class)) {
             $validator = Validator::make($input, $validates);
             if ($validator->fails()) {
-                throw new MissingParameterException();
+                throw new MissingParameterException($validator->errors()->first());
             }
             return $input;
         } else {
             foreach ($validates as $key => $validate) {
                 if (in_array('required', explode('|', $validate), true)) {
                     if (!in_array($key, $input, true)) {
-                        throw new MissingParameterException();
+                        throw new MissingParameterException("{$key} required");
                     }
                 }
             }
+            return $input;
         }
     }
 }

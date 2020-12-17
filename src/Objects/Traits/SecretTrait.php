@@ -18,6 +18,7 @@ Trait SecretTrait
         return $this->secret;
     }
 
+
     /**
      * @param string $secret
      * @return $this
@@ -25,5 +26,7 @@ Trait SecretTrait
     public function setSecret(string $secret)
     {
         $this->secret = $secret;
+
+        return $this;
     }
 }

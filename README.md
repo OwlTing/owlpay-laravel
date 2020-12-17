@@ -79,5 +79,16 @@ $vendor = [
     $vendor,
     $meta_data
 );
+
+// if you want to change secret
+\Owlting\OwlPay\Facades\OwlPay::setSecret('application_secret')->createOrder(
+    $order_serial,
+    $currency,
+    $total,
+    $desciption,
+    $vendor,
+    $meta_data
+);
+
 ```
 

@@ -40,7 +40,7 @@ class OwlPay implements SecretInterface
      * @param $currency
      * @param $total
      * @param null $description
-     * @param array $vendor
+     * @param array|string $vendor
      * @param array $meta_data
      * @param bool $is_force_create
      * @return Order
@@ -53,7 +53,7 @@ class OwlPay implements SecretInterface
                                 $currency,
                                 $total,
                                 $description = null,
-                                $vendor = [],
+                                $vendor = null,
                                 $meta_data = [],
                                 $is_force_create = false)
     {
@@ -66,6 +66,10 @@ class OwlPay implements SecretInterface
             'meta_data',
             'is_force_create'
         );
+
+        if (!is_array($input['vendor'])) {
+            $input['vendor']['customer_vendor_uuid'] = $input['vendor'];
+        }
 
         $input = array_filter($input);
 
