@@ -19,8 +19,7 @@ Trait DetailTrait
 
         $response = $this->_client->get($url, [
             'headers' => [
-                'Authorization' => 'Bearer ' .
-                property_exists(self::class, 'secret') ? $this->secret : config('owlpay.application_secret'),
+                'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
             ]
         ]);
 
