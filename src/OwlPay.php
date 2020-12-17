@@ -60,10 +60,9 @@ class OwlPay
             'order_serial',
             'currency',
             'total',
-            'meta_data',
-            'customer_vendor_uuid',
-            'vendor_uuid',
             'description',
+            'vendor',
+            'meta_data',
             'is_force_create'
         );
 
