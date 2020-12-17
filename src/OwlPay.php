@@ -51,10 +51,9 @@ class OwlPay
     public function createOrder($order_serial,
                                 $currency,
                                 $total,
-                                $meta_data = [],
-                                $customer_vendor_uuid = null,
-                                $vendor_uuid = null,
                                 $description = null,
+                                $vendor = [],
+                                $meta_data = [],
                                 $is_force_create = false)
     {
         $input = compact(
