@@ -6,13 +6,16 @@ use Owlting\OwlPay\Exceptions\MissingParameterException;
 use Owlting\OwlPay\Objects\Interfaces\CreateInterface;
 use Owlting\OwlPay\Objects\Interfaces\DetailInterface;
 use Owlting\OwlPay\Objects\Interfaces\InviteInterface;
+use Owlting\OwlPay\Objects\Interfaces\SecretInterface;
 use Owlting\OwlPay\Objects\Traits\CreateTrait;
 use Owlting\OwlPay\Objects\Traits\DetailTrait;
+use Owlting\OwlPay\Objects\Traits\SecretTrait;
 
-class Vendor extends BaseObject implements CreateInterface, DetailInterface, InviteInterface
+class Vendor extends BaseObject implements CreateInterface, DetailInterface, InviteInterface, SecretInterface
 {
     use CreateTrait;
     use DetailTrait;
+    use SecretTrait;
 
     const INVITE = 'invite';
 
@@ -99,7 +102,8 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
 
         $response = $this->_client->post($url, [
             'headers' => [
-                'Authorization' => 'Bearer ' . config('owlpay.application_secret'),
+                'Authorization' => 'Bearer ' .
+                property_exists(self::class, 'secret') ? $this->secret : config('owlpay.application_secret'),
             ],
             'form_params' => $input
         ]);

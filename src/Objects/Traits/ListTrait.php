@@ -23,7 +23,8 @@ Trait ListTrait
 
         $response = $this->_client->get($url, [
             'headers' => [
-                'Authorization' => 'Bearer ' . config('owlpay.application_secret'),
+                'Authorization' => 'Bearer ' .
+                property_exists(self::class, 'secret') ? $this->secret : config('owlpay.application_secret'),
             ],
             'query' => $validated,
         ]);
