@@ -67,15 +67,17 @@ class OwlPay implements SecretInterface
             'is_force_create'
         );
 
-        if (!is_array($input['vendor'])) {
-            $input['vendor']['customer_vendor_uuid'] = $input['vendor'];
+        if (is_string($input['vendor'])) {
+            $input['vendor'] = [
+                'customer_vendor_uuid' => $input['vendor'],
+            ];
         }
 
         $input = array_filter($input);
 
         $order = new Order();
 
-        if (empty($this->secret)) {
+        if (!empty($this->secret)) {
             $order->setSecret($this->secret);
         }
 
@@ -99,7 +101,7 @@ class OwlPay implements SecretInterface
     {
         $order = new Order();
 
-        if (empty($this->secret)) {
+        if (!empty($this->secret)) {
             $order->setSecret($this->secret);
         }
 
@@ -122,7 +124,7 @@ class OwlPay implements SecretInterface
     {
         $vendorInvite = new VendorInvite();
 
-        if (empty($this->secret)) {
+        if (!empty($this->secret)) {
             $vendorInvite->setSecret($this->secret);
         }
 
