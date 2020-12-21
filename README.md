@@ -76,7 +76,7 @@ Vendor::query()->get()
     });
 ```
 
-### Import orders
+### Import order
 ```php
 use Owlting\OwlPay\Facades\OwlPay;
 
