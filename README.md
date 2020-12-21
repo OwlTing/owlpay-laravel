@@ -1,94 +1,99 @@
-# OwlPay PHP bindings
+# OwlPay Laravel SDK
+OwlPay SDK provides ease to use APIs and internal importing for PHP, it's willing provide several use cases following.
 
-The OwlPay PHP library provides convenient access to the OwlPay API from
-applications written in the PHP language.
+## Warning
+This package is developing now, if we have a huge changes, the semi version is going to modify.
 
 ## Requirements
+* PHP 7 or later.
+* Laravel
+* curl extension
+* json extension
+* mbstring extension
 
-PHP 7 and later.
+## Installation
+### By composer
+```json
+    {
+      "repositories": [
+        {
+          "type": "vcs",
+          "url": "git@github.com:OwlTing/owlpay-php.git",
+          "no-api": true
+        }
+      ]
+    }
+```
 
-## Composer
-
-You can install the bindings via [Composer](http://getcomposer.org/). Run the following command:
-
+Next, install the package.
 ```bash
 $ composer require owlting/owlpay-php
 ```
 
-To use the bindings, use Composer's [autoload](https://getcomposer.org/doc/01-basic-usage.md#autoloading):
-
-```php
-require_once('vendor/autoload.php');
-```
-
-## Dependencies
-
-The bindings require the following extensions in order to work properly:
-
--   [`curl`](https://secure.php.net/manual/en/book.curl.php), although you can use your own non-cURL client if you prefer
--   [`json`](https://secure.php.net/manual/en/book.json.php)
--   [`mbstring`](https://secure.php.net/manual/en/book.mbstring.php) (Multibyte String)
-
-If you use Composer, these dependencies should be handled automatically. If you install manually, you'll want to make sure these extensions are available.
-
-## Documentation
-
-
-## Getting Started
-
-Also, if you're using Laravel, you can publish and configure the environment keys in your application.
+Also, you need to publish and configure the environment keys in your application.
 ```bash
 $ php artisan vendor:publish --provider="Owlting\OwlPay\Providers\OwlPayServiceProvider"
 ```
+If you are using laravel version less than 5.4, you need to manually install the provider in app.php
 
-By default, the `.env` keys shall be:
-```
+Finally, set the environment variables.
+
+### Services endpoint
+| environment    | endpoint                |
+|---------|----------------------------|
+| staging  | https://api-stage.owlpay.com/        |
+
+```dotenv
 OWLPAY_API_URL=http://owlpay.owlting.localhost
 OWLPAY_APPLICATION_SECRET=MY_SECRET.....
 ```
-
-## Usage
-
+## APIs
+### Import vendors
 ```php
-$order_serial = 'OWL0001';
-$currency = 'TWD';
-$total = 100;
-$meta_data = []; 
-$customer_vendor_uuid = 'owlnest-vendor-uuid';
-$vendor = [
-    'name' => $hotel->name,
-    'customer_vendor_uuid' => $hotel->hotel_uuid,
-    'email' => $hotel_email,
-    'description' => $hotel->name,
-    'remit_info' => [
-        'country_iso' => 'TW',
-        'bank_name' => 'Bank Name",
-        'bank_subname' => 'Bank SubName",
-        'bank_code' => "1234",
-        'bank_subcode' => "001234",
-        'bank_account' => "1234567890986",
-        'bank_account_name' => "Owlting Group",
-    ]
-];
+use Owlting\OwlPay\Facades\OwlPay;
+use Illuminate\Support\Str;
 
-\Owlting\OwlPay\Facades\OwlPay::createOrder(
-    $order_serial,
-    $currency,
-    $total,
-    $desciption,
-    $vendor,
-    $meta_data
-);
-
-// if you want to change secret
-\Owlting\OwlPay\Facades\OwlPay::setSecret('application_secret')->createOrder(
-    $order_serial,
-    $currency,
-    $total,
-    $desciption,
-    $vendor,
-    $meta_data
-);
-
+Vendor::query()->get()
+    ->map(function($vendor) {
+        OwlPay::vendor_invite()->create([
+            'email' => $vendor->email, //hello.sale@owlting.com
+            'is_owlpay_send_email' => false,
+            'vendor' => [
+                'customer_vendor_uuid' => $vendor->vendor_number, // Unique vendor id in application.
+                'name' => $vendor->vendor_name, // 奧丁丁皮箱旅行有限公司
+                'description' => $vendor->vendor_name, // you can define any.
+                'remit_info' => [
+                    'country_iso' => Str::upper($vendor->country_code), // TW
+                    'bank_name' => $vendor->bank_name, // 國泰世華
+                    'bank_subname' => $vendor->branch_name, // 永春分行
+                    'bank_code' => $vendor->bank_code, // 013
+                    'bank_subcode' => $vendor->bank_subcode, // 0785
+                    'bank_account' => $vendor->account_number, // 123456789102
+                    'bank_account_name' => $vendor->account_name, // 奧丁丁皮箱旅行有限公司
+                ]
+            ]
+        ]);
+    });
 ```
+
+### Import order
+```php
+use Owlting\OwlPay\Facades\OwlPay;
+
+$order = Order::first();
+$customer_vendor_uuid = optional($order->vendor)->vendor_number; // be sure having vendor number.
+$meta_data = [];
+
+OwlPay::createOrder(
+    $order->order_number, // OTR2020120700004
+    $order->currency, // TWD
+    $order->total, // paid price, 100.00
+    $order->description, // any or order_number
+    $customer_vendor_uuid ?? '', // vendor uuid
+    $meta_data, // empty for now
+    $isForceCreate = false // needs to forcing create?
+);
+```
+
+
 
