@@ -88,6 +88,7 @@ OwlPay::createOrder(
     $order->order_number, // OTR2020120700004
     $order->currency, // TWD
     $order->total, // paid price, 100.00
+    date('Y-m-d\TH:i:sP', $order->created_at), // order created_at with timezone 2020-12-21T23:24:29-05:00
     $order->description, // any or order_number
     $customer_vendor_uuid ?? '', // vendor uuid
     $meta_data, // empty for now
