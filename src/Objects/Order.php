@@ -33,6 +33,7 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
         'total' => 'required',
         'description' => 'nullable',
         'is_force_create' => 'nullable|boolean',
+        'order_created_at' => 'nullable',
         'meta_data' => 'nullable|array',
 
         'vendor.name' => 'nullable|string',
