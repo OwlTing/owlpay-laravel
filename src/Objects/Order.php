@@ -22,9 +22,9 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
     const VENDOR_REQUEST_PAY = 'vendor_request_pay';
 
     protected static $url_map = [
-        self::CREATE => '/api/platform/orders',
-        self::SHOW_DETAIL => '/api/platform/orders/{order_token}',
-        self::VENDOR_REQUEST_PAY => '/api/platform/orders/{order_token}/vendor_request_pay',
+        self::CREATE => '/api/platform/tunnel/orders',
+        self::SHOW_DETAIL => '/api/platform/tunnel/orders/{order_token}',
+        self::VENDOR_REQUEST_PAY => '/api/platform/tunnel/orders/{order_token}/vendor_request_pay',
     ];
 
     protected static $create_validator = [
