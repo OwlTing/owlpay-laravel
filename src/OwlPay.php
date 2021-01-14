@@ -69,7 +69,7 @@ class OwlPay implements SecretInterface
             'is_force_create'
         );
 
-        if (is_string($input['vendor'])) {
+        if (!is_array($input['vendor'])) {
             $input['vendor'] = [
                 'customer_vendor_uuid' => $input['vendor'],
             ];
