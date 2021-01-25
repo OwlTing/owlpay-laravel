@@ -66,7 +66,8 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
     ];
 
     protected static $cancel_validator = [
-        'order_tokens' => 'required'
+        'order_tokens' => 'required_without:application_order_serials|array',
+        'application_order_serials' => 'required_without:order_tokens|array'
     ];
 
 

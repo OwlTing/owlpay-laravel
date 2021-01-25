@@ -122,7 +122,7 @@ class OwlPay implements SecretInterface
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function cancelOrder($order_tokens): Order
+    public function cancelOrder($args): Order
     {
         $order = new Order();
 
@@ -130,11 +130,15 @@ class OwlPay implements SecretInterface
             $order->setSecret($this->secret);
         }
 
-        if (!is_array($order_tokens)) {
-            $order_tokens = [$order_tokens];
+        if (isset($args['order_tokens']) && !is_array($args['order_tokens'])) {
+            $args['order_tokens'] = [$args['order_tokens']];
         }
 
-        $order->cancel(compact('order_tokens'));
+        if (isset($args['application_order_serials']) && !is_array($args['application_order_serials'])) {
+            $args['application_order_serials'] = [$args['application_order_serials']];
+        }
+
+        $order->cancel($args);
 
         $this->checkResponse($order);
 
