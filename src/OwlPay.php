@@ -115,7 +115,7 @@ class OwlPay implements SecretInterface
     }
 
     /**
-     * @param $order_tokens
+     * @param $args
      * @return Order
      * @throws NotFoundException
      * @throws OwlPayException

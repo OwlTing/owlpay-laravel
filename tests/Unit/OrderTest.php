@@ -101,7 +101,7 @@ class OrderTest extends TestCase
 
         //Act
         $target = new OwlPay();
-        $response = $target->cancelOrder(['OBEXXXOOO12345']);
+        $response = $target->cancelOrder(['application_order_serials' => 'OBEXXXOOO12345']);
 
         //Assert
         $this->assertEquals($response->getLastResponse(), $body);
