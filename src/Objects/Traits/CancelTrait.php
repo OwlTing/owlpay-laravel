@@ -2,26 +2,23 @@
 
 namespace Owlting\OwlPay\Objects\Traits;
 
-use GuzzleHttp\Client;
-use Owlting\OwlPay\Exceptions\InvalidRequestException;
-use Owlting\OwlPay\Exceptions\MissingParameterException;
-
-Trait DetailTrait
+Trait CancelTrait
 {
     /**
-     * @param $order_token
-     * @return DetailTrait
+     * @param $value
      */
-    public function detail($order_token)
+    public function cancel($value)
     {
-        $url = self::getUrl(self::SHOW_DETAIL, compact('order_token'));
+        $url = self::getUrl(self::CANCEL);
 
-        $response = $this->_client->get($url, [
+        $input = $this::validate(self::CANCEL, $value);
+
+        $response = $this->_client->put($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
-            ]
+            ],
+            'json' => $input
         ]);
-
 
         $response_data = $this->_interpretResponse(
             $response->getBody()->getContents(),

@@ -23,7 +23,7 @@ Trait SecretTrait
      * @param string $secret
      * @return $this
      */
-    public function setSecret(string $secret)
+    public function setSecret(string $secret): SecretTrait
     {
         $this->secret = $secret;
 

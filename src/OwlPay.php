@@ -39,6 +39,7 @@ class OwlPay implements SecretInterface
      * @param $order_serial
      * @param $currency
      * @param $total
+     * @param null $order_created_at
      * @param null $description
      * @param array|string $vendor
      * @param array $meta_data
@@ -56,7 +57,7 @@ class OwlPay implements SecretInterface
                                 $description = null,
                                 $vendor = null,
                                 $meta_data = [],
-                                $is_force_create = false)
+                                $is_force_create = false): Order
     {
         $input = compact(
             'order_serial',
@@ -93,13 +94,12 @@ class OwlPay implements SecretInterface
     /**
      * @param $order_token
      * @return Order
-     * @throws Exceptions\InvalidRequestException
      * @throws NotFoundException
      * @throws OwlPayException
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function getOrderDetail($order_token)
+    public function getOrderDetail($order_token): Order
     {
         $order = new Order();
 
@@ -115,6 +115,33 @@ class OwlPay implements SecretInterface
     }
 
     /**
+     * @param $order_tokens
+     * @return Order
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function cancelOrder($order_tokens): Order
+    {
+        $order = new Order();
+
+        if (!empty($this->secret)) {
+            $order->setSecret($this->secret);
+        }
+
+        if (!is_array($order_tokens)) {
+            $order_tokens = [$order_tokens];
+        }
+
+        $order->cancel(compact('order_tokens'));
+
+        $this->checkResponse($order);
+
+        return $order;
+    }
+
+    /**
      * @param $args
      * @return VendorInvite
      * @throws NotFoundException
@@ -122,7 +149,7 @@ class OwlPay implements SecretInterface
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function createVendorInvite($args)
+    public function createVendorInvite($args): VendorInvite
     {
         $vendorInvite = new VendorInvite();
 

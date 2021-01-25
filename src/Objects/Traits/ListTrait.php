@@ -10,10 +10,9 @@ Trait ListTrait
 {
     /**
      * @param array $query
-     * @return
-     * @throws InvalidRequestException
+     * @return ListTrait
      */
-    public function all($query)
+    public function all(array $query)
     {
         $url = self::getUrl(self::SHOW_LIST);
 
@@ -28,14 +27,11 @@ Trait ListTrait
             'query' => $validated,
         ]);
 
-
-        $response_data = $this->_interpretResponse(
+        $this->_lastResponse = $this->_interpretResponse(
             $response->getBody()->getContents(),
             $response->getStatusCode(),
             $response->getHeaders()
         );
-
-        $this->_lastResponse = $response_data;
 
         $data = [
             'data' => $this->_lastResponse['data'] ?? [],

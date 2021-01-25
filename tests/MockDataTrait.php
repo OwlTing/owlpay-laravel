@@ -13,23 +13,34 @@ trait MockDataTrait
 
     protected static $orderMockData = [
         'data' => [
-            'status' => 'owlpay.received_order123123',
-            'currency' => 'TWD',
+            'order_status' => 'owlpay.received_order',
+            'status' => 'owlpay.received_order',
             "order_serial" => "test",
+            'currency' => 'TWD',
             "total" => 1000,
             "is_paid" => false,
             "paid_time_at" => null,
             "notified_time_at" => null,
-            "meta_data" => [],
+            'vendor_uuid' => 'ven_oooo1234',
+            'vendor_name' => 'vender name',
+            'customer_vendor_uuid' => '221312-123123-123123',
+            "meta_data" => [
+                [
+                    'languge' => 'zh_tw'
+                ]
+            ],
             'events' => [
-                "type" => "order_receive",
-                "block_number" => null,
-                "transaction_hash" => null,
-                "created_at" => "2020-09-18T09:37:22+00:00",
+                [
+                    "type" => "order_receive",
+                    "block_number" => null,
+                    "transaction_hash" => null,
+                    "created_at" => "2020-09-18T09:37:22+00:00",
+                ]
             ],
             'order_token' => 'ord_5d4f192692e44fb36ae4f8a4e5d0f01f377e4ae0caf2f1afc8e60d01b87ab9b5',
+            'order_created_at' => '2020-12-31 00:00:01',
             'description' => null,
-
+            'logs' => []
         ],
         'status' => 200,
     ];
