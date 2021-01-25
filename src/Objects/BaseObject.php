@@ -10,6 +10,7 @@ use Owlting\OwlPay\Objects\Interfaces\BaseInterface;
 abstract class BaseObject implements \ArrayAccess, \Countable, BaseInterface, \JsonSerializable
 {
     const CREATE = 'create';
+    const CANCEL = 'cancel';
     const SHOW_LIST = 'list';
     const SHOW_DETAIL = 'detail';
     const DELETE = 'delete';

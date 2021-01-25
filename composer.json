@@ -6,6 +6,10 @@
         {
             "name": "Eric",
             "email": "eric_liao@owlting.com"
+        },
+        {
+            "name": "Maras",
+            "email": "maraschen@owlting.com"
         }
     ],
     "minimum-stability": "dev",
