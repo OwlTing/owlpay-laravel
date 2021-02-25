@@ -10,6 +10,7 @@ use Owlting\OwlPay\Objects\Interfaces\BaseInterface;
 abstract class BaseObject implements \ArrayAccess, \Countable, BaseInterface, \JsonSerializable
 {
     const CREATE = 'create';
+    const UPDATE = 'update';
     const CANCEL = 'cancel';
     const SHOW_LIST = 'list';
     const SHOW_DETAIL = 'detail';
@@ -105,15 +106,14 @@ abstract class BaseObject implements \ArrayAccess, \Countable, BaseInterface, \J
     protected function getUrl($event, $routes = [])
     {
         /** @var array $url_map */
+        /** @var string $url */
         $url = $this::$url_map[$event];
 
         if (empty($url)) {
             throw new RouteNotFoundException();
         }
 
-        foreach ($routes as $key => $route) {
-            $url = str_replace('{' . $key . '}', $route, $url);
-        }
+        $url = sprintf($url, ...$routes);
 
         return config('owlpay.api_url') . $url;
     }

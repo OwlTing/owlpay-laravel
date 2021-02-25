@@ -1,27 +1,27 @@
 <?php
-
 namespace Owlting\OwlPay\Objects\Traits;
 
-use GuzzleHttp\Client;
-use Owlting\OwlPay\Exceptions\InvalidRequestException;
-use Owlting\OwlPay\Exceptions\MissingParameterException;
 
-Trait DetailTrait
+trait UpdateTrait
 {
-    /**
-     * @param mixed ...$args
-     * @return DetailTrait
-     */
-    public function detail(...$args)
-    {
-        $url = self::getUrl(self::SHOW_DETAIL, $args);
 
-        $response = $this->_client->get($url, [
+    /**
+     * @param $value
+     * @param mixed ...$args
+     * @return UpdateTrait
+     */
+    public function update($value, ...$args)
+    {
+        $url = self::getUrl(self::UPDATE, $args);
+
+        $input = $this::validate(self::UPDATE, $value);
+
+        $response = $this->_client->put($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
-            ]
+            ],
+            'json' => $input
         ]);
-
 
         $response_data = $this->_interpretResponse(
             $response->getBody()->getContents(),
