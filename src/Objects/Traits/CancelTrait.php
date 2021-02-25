@@ -6,6 +6,7 @@ Trait CancelTrait
 {
     /**
      * @param $value
+     * @return CancelTrait
      */
     public function cancel($value)
     {

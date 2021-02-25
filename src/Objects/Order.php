@@ -17,22 +17,19 @@ use Owlting\OwlPay\Objects\Traits\DetailTrait;
 use Owlting\OwlPay\Objects\Traits\ListTrait;
 use Owlting\OwlPay\Objects\Traits\SecretTrait;
 
-class Order extends BaseObject implements CreateInterface, DetailInterface, SecretInterface, CancelInterface
+class Order extends BaseObject implements CreateInterface, DetailInterface, SecretInterface, CancelInterface, ListInterface
 {
     use CreateTrait;
     use DetailTrait;
     use CancelTrait;
     use SecretTrait;
-//    use ListTrait;
-
-    const VENDOR_REQUEST_PAY = 'vendor_request_pay';
+    use ListTrait;
 
     protected static $url_map = [
-//        self::SHOW_LIST => '/api/platform/tunnel/orders',
+        self::SHOW_LIST => '/api/platform/tunnel/orders',
         self::CREATE => '/api/v1/platform/tunnel/orders',
-        self::SHOW_DETAIL => '/api/v1/platform/tunnel/orders/{order_token}',
-        self::CANCEL => '/api/v1/platform/tunnel/orders/cancel',
-        self::VENDOR_REQUEST_PAY => '/api/v1/platform/tunnel/orders/{order_token}/vendor_request_pay',
+        self::SHOW_DETAIL => '/api/v1/platform/tunnel/orders/%s',
+        self::CANCEL => '/api/v1/platform/tunnel/orders/cancel'
     ];
 
     protected static $create_validator = [
@@ -86,7 +83,7 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
      * @return array|mixed
      * @throws MissingParameterException
      */
-    public static function validate($event, $input)
+    public static function validate($event, $input): array
     {
         switch ($event) {
             case self::CREATE:

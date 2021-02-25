@@ -11,6 +11,7 @@ use Owlting\OwlPay\Objects\BaseObject;
 use Owlting\OwlPay\Objects\Interfaces\SecretInterface;
 use Owlting\OwlPay\Objects\Order;
 use Owlting\OwlPay\Objects\Traits\SecretTrait;
+use Owlting\OwlPay\Objects\Vendor;
 use Owlting\OwlPay\Objects\VendorInvite;
 
 class OwlPay implements SecretInterface
@@ -92,6 +93,29 @@ class OwlPay implements SecretInterface
     }
 
     /**
+     * @param $query
+     * @return Order
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function getOrders($query = []): Order
+    {
+        $order = new Order();
+
+        if (!empty($this->secret)) {
+            $order->setSecret($this->secret);
+        }
+
+        $order->all($query);
+
+        $this->checkResponse($order);
+
+        return $order;
+    }
+
+    /**
      * @param $order_token
      * @return Order
      * @throws NotFoundException
@@ -146,6 +170,166 @@ class OwlPay implements SecretInterface
     }
 
     /**
+     * @param $query
+     * @return Vendor
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function getVendors($query = []): Vendor
+    {
+        $vendor = new Vendor();
+
+        if (!empty($this->secret)) {
+            $vendor->setSecret($this->secret);
+        }
+
+        $vendor->all($query);
+
+        $this->checkResponse($vendor);
+
+        return $vendor;
+    }
+
+    /**
+     * @param $vendor_uuid
+     * @return Vendor
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function getVendorDetail($vendor_uuid): Vendor
+    {
+        $vendor = new Vendor();
+
+        if (!empty($this->secret)) {
+            $vendor->setSecret($this->secret);
+        }
+
+        $vendor->detail($vendor_uuid);
+
+        $this->checkResponse($vendor);
+
+        return $vendor;
+    }
+
+    /**
+     * @param null $name
+     * @param null $uuid
+     * @param null $customer_vendor_uuid
+     * @param null $email
+     * @param null $description
+     * @param array $remit_info
+     * @param array $meta_data
+     * @return Vendor
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function createVendor($uuid = null,
+                                 $customer_vendor_uuid = null,
+                                 $name = null,
+                                 $email = null,
+                                 $description = null,
+                                 $remit_info = [],
+                                 $meta_data = []): Vendor
+    {
+        $input = compact(
+            'name',
+            'uuid',
+            'customer_vendor_uuid',
+            'email',
+            'description',
+            'remit_info',
+            'meta_data'
+        );
+
+        $vendor = new Vendor();
+
+        if (!empty($this->secret)) {
+            $vendor->setSecret($this->secret);
+        }
+
+        $vendor->create($input);
+
+        $this->checkResponse($vendor);
+
+        return $vendor;
+    }
+
+    /**
+     * @param $uuid
+     * @param null $customer_vendor_uuid
+     * @param null $name
+     * @param null $email
+     * @param null $description
+     * @param array $remit_info
+     * @param array $meta_data
+     * @return Vendor
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function updateVendor($uuid,
+                                 $customer_vendor_uuid = null,
+                                 $name = null,
+                                 $email = null,
+                                 $description = null,
+                                 $remit_info = [],
+                                 $meta_data = []): Vendor
+    {
+        $input = compact(
+            'name',
+            'uuid',
+            'customer_vendor_uuid',
+            'email',
+            'description',
+            'remit_info',
+            'meta_data'
+        );
+
+        $vendor = new Vendor();
+
+        if (!empty($this->secret)) {
+            $vendor->setSecret($this->secret);
+        }
+
+        $vendor->update($input, $uuid);
+
+        $this->checkResponse($vendor);
+
+        return $vendor;
+    }
+
+    /**
+     * @param $vendor_uuid
+     * @param array $query
+     * @return Vendor
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function getVendorOrders($vendor_uuid, array $query = []): Vendor
+    {
+        $vendor = new Vendor();
+
+        if (!empty($this->secret)) {
+            $vendor->setSecret($this->secret);
+        }
+
+        $vendor->vendor_orders($vendor_uuid, $query);
+
+        $this->checkResponse($vendor);
+
+        return $vendor;
+    }
+
+    /**
      * @param $args
      * @return VendorInvite
      * @throws NotFoundException
@@ -192,6 +376,11 @@ class OwlPay implements SecretInterface
         }
     }
 
+    /**
+     * @param $input
+     * @param string $separator
+     * @return string|string[]
+     */
     private function camelize($input, $separator = '_')
     {
         return str_replace($separator, '', ucwords($input, $separator));
