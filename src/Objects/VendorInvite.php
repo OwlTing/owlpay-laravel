@@ -20,7 +20,7 @@ class VendorInvite extends BaseObject implements CreateInterface, DetailInterfac
     use SecretTrait;
 
     protected static $url_map = [
-        self::CREATE => '/api/platform/tunnel/vendor_invite',
+        self::CREATE => '/api/v1/platform/tunnel/vendor_invite',
 //        self::SHOW_DETAIL => '/api/platform/orders/{order_token}',
     ];
 

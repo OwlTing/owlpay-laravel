@@ -38,13 +38,8 @@ If you are using laravel version less than 5.4, you need to manually install the
 
 Finally, set the environment variables.
 
-### Services endpoint
-| environment    | endpoint                |
-|---------|----------------------------|
-| staging  | https://api-stage.owlpay.com/        |
-
 ```dotenv
-OWLPAY_API_URL=http://owlpay.owlting.localhost
+OWLPAY_API_URL=https://api.owlpay.com
 OWLPAY_APPLICATION_SECRET=MY_SECRET.....
 ```
 ## APIs
