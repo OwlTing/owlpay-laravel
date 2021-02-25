@@ -29,10 +29,10 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
 
     protected static $url_map = [
 //        self::SHOW_LIST => '/api/platform/tunnel/orders',
-        self::CREATE => '/api/platform/tunnel/orders',
-        self::SHOW_DETAIL => '/api/platform/tunnel/orders/{order_token}',
-        self::CANCEL => '/api/platform/tunnel/orders/cancel',
-        self::VENDOR_REQUEST_PAY => '/api/platform/tunnel/orders/{order_token}/vendor_request_pay',
+        self::CREATE => '/api/v1/platform/tunnel/orders',
+        self::SHOW_DETAIL => '/api/v1/platform/tunnel/orders/{order_token}',
+        self::CANCEL => '/api/v1/platform/tunnel/orders/cancel',
+        self::VENDOR_REQUEST_PAY => '/api/v1/platform/tunnel/orders/{order_token}/vendor_request_pay',
     ];
 
     protected static $create_validator = [

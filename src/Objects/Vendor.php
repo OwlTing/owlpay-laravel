@@ -22,7 +22,7 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
     protected static $url_map = [
 //        self::CREATE => '/api/platform/vendors',
 //        self::SHOW_DETAIL => '/api/platform/vendors/{vendor_uuid}',
-        self::INVITE => '/api/platform/tunnel/vendor_invite',
+        self::INVITE => '/api/v1/platform/tunnel/vendor_invite',
     ];
 
     protected static $create_validator = [
