@@ -79,11 +79,11 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
 
     /**
      * @param $event
-     * @param $input
+     * @param $value
      * @return array|mixed
      * @throws MissingParameterException
      */
-    public static function validate($event, $input): array
+    public static function validate($event, $value): array
     {
         switch ($event) {
             case self::CREATE:
@@ -100,20 +100,20 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
         }
 
         if (class_exists(Validator::class)) {
-            $validator = Validator::make($input, $validates);
+            $validator = Validator::make($value, $validates);
             if ($validator->fails()) {
                 throw new MissingParameterException($validator->errors()->first());
             }
-            return $input;
+            return $value;
         } else {
             foreach ($validates as $key => $validate) {
                 if (in_array('required', explode('|', $validate), true)) {
-                    if (!in_array($key, $input, true)) {
+                    if (!in_array($key, $value, true)) {
                         throw new MissingParameterException("{$key} required");
                     }
                 }
             }
-            return $input;
+            return $value;
         }
     }
 }

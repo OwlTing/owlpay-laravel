@@ -10,6 +10,7 @@ use Owlting\OwlPay\Exceptions\ClassNotFoundException;
 use Owlting\OwlPay\Objects\BaseObject;
 use Owlting\OwlPay\Objects\Interfaces\SecretInterface;
 use Owlting\OwlPay\Objects\Order;
+use Owlting\OwlPay\Objects\OrderTransfer;
 use Owlting\OwlPay\Objects\Traits\SecretTrait;
 use Owlting\OwlPay\Objects\Vendor;
 use Owlting\OwlPay\Objects\VendorInvite;
@@ -350,6 +351,148 @@ class OwlPay implements SecretInterface
         $this->checkResponse($vendorInvite);
 
         return $vendorInvite;
+    }
+
+    /**
+     * @param $args
+     * @return OrderTransfer
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function createOrdersTransfer($args): OrderTransfer
+    {
+        $orderTransfer = new OrderTransfer();
+
+        if (!empty($this->secret)) {
+            $orderTransfer->setSecret($this->secret);
+        }
+
+        $orderTransfer->create($args);
+
+        $this->checkResponse($orderTransfer);
+
+        return $orderTransfer;
+    }
+
+    /**
+     * @param $query
+     * @return OrderTransfer
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function getOrdersTransfers($query = []): OrderTransfer
+    {
+        $orderTransfer = new OrderTransfer();
+
+        if (!empty($this->secret)) {
+            $orderTransfer->setSecret($this->secret);
+        }
+
+        $orderTransfer->all($query);
+
+        $this->checkResponse($orderTransfer);
+
+        return $orderTransfer;
+    }
+
+    /**
+     * @param $order_transfer_uuid
+     * @return OrderTransfer
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function getOrdersTransfer($order_transfer_uuid): OrderTransfer
+    {
+        $orderTransfer = new OrderTransfer();
+
+        if (!empty($this->secret)) {
+            $orderTransfer->setSecret($this->secret);
+        }
+
+        $orderTransfer->detail($order_transfer_uuid);
+
+        $this->checkResponse($orderTransfer);
+
+        return $orderTransfer;
+    }
+
+    /**
+     * @param $order_transfer_uuid
+     * @return OrderTransfer
+     * @throws Exceptions\MissingParameterException
+     * @throws Exceptions\RouteNotFoundException
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function getOrdersTransferOrders($order_transfer_uuid): OrderTransfer
+    {
+        $orderTransfer = new OrderTransfer();
+
+        if (!empty($this->secret)) {
+            $orderTransfer->setSecret($this->secret);
+        }
+
+        $orderTransfer->transfer_orders($order_transfer_uuid, []);
+
+        $this->checkResponse($orderTransfer);
+
+        return $orderTransfer;
+    }
+
+    /**
+     * @param $order_transfer_uuid
+     * @return OrderTransfer
+     * @throws Exceptions\RouteNotFoundException
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function confirmOrdersTransfer($order_transfer_uuid): OrderTransfer
+    {
+        $orderTransfer = new OrderTransfer();
+
+        if (!empty($this->secret)) {
+            $orderTransfer->setSecret($this->secret);
+        }
+
+        $orderTransfer->confirm($order_transfer_uuid);
+
+        $this->checkResponse($orderTransfer);
+
+        return $orderTransfer;
+    }
+
+    /**
+     * @param $order_transfer_uuid
+     * @return OrderTransfer
+     * @throws Exceptions\RouteNotFoundException
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function cancelOrdersTransfer($order_transfer_uuid): OrderTransfer
+    {
+        $orderTransfer = new OrderTransfer();
+
+        if (!empty($this->secret)) {
+            $orderTransfer->setSecret($this->secret);
+        }
+
+        $orderTransfer->cancel($order_transfer_uuid);
+
+        $this->checkResponse($orderTransfer);
+
+        return $orderTransfer;
     }
 
     /**
