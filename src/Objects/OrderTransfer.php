@@ -40,10 +40,10 @@ class OrderTransfer extends BaseObject implements ListInterface, CreateInterface
         'vendor_email' => 'nullable',
         'order_serial' => 'nullable',
         'order_serials' => 'nullable|array',
-        'order_token' => 'nullable',
-        'order_tokens' => 'nullable|array',
+        'order_uuid' => 'nullable',
+        'order_uuids' => 'nullable|array',
         'order_status' => 'nullable',
-        'customer_vendor_uuid' => 'nullable',
+        'application_vendor_uuid' => 'nullable',
         'during_order_created_at' => 'nullable'
     ];
 
