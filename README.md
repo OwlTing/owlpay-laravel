@@ -54,7 +54,7 @@ Vendor::query()->get()
             'email' => $vendor->email, //hello.sale@owlting.com
             'is_owlpay_send_email' => false,
             'vendor' => [
-                'customer_vendor_uuid' => $vendor->vendor_number, // Unique vendor id in application.
+                'application_vendor_uuid' => $vendor->vendor_number, // Unique vendor id in application.
                 'name' => $vendor->vendor_name, // 奧丁丁皮箱旅行有限公司
                 'description' => $vendor->vendor_name, // you can define any.
                 'remit_info' => [

@@ -74,7 +74,7 @@ class OwlPay implements SecretInterface
 
         if (!is_array($input['vendor'])) {
             $input['vendor'] = [
-                'customer_vendor_uuid' => $input['vendor'],
+                'application_vendor_uuid' => $input['vendor'],
             ];
         }
 
@@ -117,14 +117,14 @@ class OwlPay implements SecretInterface
     }
 
     /**
-     * @param $order_token
+     * @param $order_uuid
      * @return Order
      * @throws NotFoundException
      * @throws OwlPayException
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function getOrderDetail($order_token): Order
+    public function getOrderDetail($order_uuid): Order
     {
         $order = new Order();
 
@@ -132,7 +132,7 @@ class OwlPay implements SecretInterface
             $order->setSecret($this->secret);
         }
 
-        $order->detail($order_token);
+        $order->detail($order_uuid);
 
         $this->checkResponse($order);
 
@@ -155,8 +155,8 @@ class OwlPay implements SecretInterface
             $order->setSecret($this->secret);
         }
 
-        if (isset($args['order_tokens']) && !is_array($args['order_tokens'])) {
-            $args['order_tokens'] = [$args['order_tokens']];
+        if (isset($args['order_uuids']) && !is_array($args['order_uuids'])) {
+            $args['order_uuids'] = [$args['order_uuids']];
         }
 
         if (isset($args['application_order_serials']) && !is_array($args['application_order_serials'])) {
@@ -219,7 +219,7 @@ class OwlPay implements SecretInterface
     /**
      * @param null $name
      * @param null $uuid
-     * @param null $customer_vendor_uuid
+     * @param null $application_vendor_uuid
      * @param null $email
      * @param null $description
      * @param array $remit_info
@@ -231,7 +231,7 @@ class OwlPay implements SecretInterface
      * @throws UnknownException
      */
     public function createVendor($uuid = null,
-                                 $customer_vendor_uuid = null,
+                                 $application_vendor_uuid = null,
                                  $name = null,
                                  $email = null,
                                  $description = null,
@@ -241,7 +241,7 @@ class OwlPay implements SecretInterface
         $input = compact(
             'name',
             'uuid',
-            'customer_vendor_uuid',
+            'application_vendor_uuid',
             'email',
             'description',
             'remit_info',
@@ -263,7 +263,7 @@ class OwlPay implements SecretInterface
 
     /**
      * @param $uuid
-     * @param null $customer_vendor_uuid
+     * @param null $application_vendor_uuid
      * @param null $name
      * @param null $email
      * @param null $description
@@ -276,7 +276,7 @@ class OwlPay implements SecretInterface
      * @throws UnknownException
      */
     public function updateVendor($uuid,
-                                 $customer_vendor_uuid = null,
+                                 $application_vendor_uuid = null,
                                  $name = null,
                                  $email = null,
                                  $description = null,
@@ -286,7 +286,7 @@ class OwlPay implements SecretInterface
         $input = compact(
             'name',
             'uuid',
-            'customer_vendor_uuid',
+            'application_vendor_uuid',
             'email',
             'description',
             'remit_info',

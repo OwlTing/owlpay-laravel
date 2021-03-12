@@ -29,7 +29,7 @@ class VendorInvite extends BaseObject implements CreateInterface, DetailInterfac
         'email' => 'nullable|email',
         'vendor.name' => 'nullable|string',
         'vendor.uuid' => 'nullable|string',
-        'vendor.customer_vendor_uuid' => 'nullable|string',
+        'vendor.application_vendor_uuid' => 'nullable|string',
         'vendor.email' => 'nullable|email',
         'vendor.remit_info.country_iso' => 'nullable',
         'vendor.remit_info.type' => 'nullable',

@@ -43,7 +43,7 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
 
         'vendor.name' => 'nullable|string',
         'vendor.uuid' => 'nullable|string',
-        'vendor.customer_vendor_uuid' => 'nullable|string',
+        'vendor.application_vendor_uuid' => 'nullable|string',
         'vendor.email' => 'nullable|email',
         'vendor.remit_info.country_iso' => 'nullable',
         'vendor.remit_info.type' => 'nullable',
@@ -63,8 +63,8 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
     ];
 
     protected static $cancel_validator = [
-        'order_tokens' => 'required_without:application_order_serials|array',
-        'application_order_serials' => 'required_without:order_tokens|array'
+        'order_uuids' => 'required_without:application_order_serials|array',
+        'application_order_serials' => 'required_without:order_uuids|array'
     ];
 
 

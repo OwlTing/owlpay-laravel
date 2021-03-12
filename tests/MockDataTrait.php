@@ -23,7 +23,7 @@ trait MockDataTrait
             "notified_time_at" => null,
             'vendor_uuid' => 'ven_oooo1234',
             'vendor_name' => 'vender name',
-            'customer_vendor_uuid' => '221312-123123-123123',
+            'application_vendor_uuid' => '221312-123123-123123',
             "meta_data" => [
                 [
                     'languge' => 'zh_tw'
