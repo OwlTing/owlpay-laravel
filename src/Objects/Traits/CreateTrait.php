@@ -22,7 +22,7 @@ trait CreateTrait
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
             ],
-            'form_params' => $input
+            'json' => $input
         ]);
 
         $response_data = $this->_interpretResponse(
