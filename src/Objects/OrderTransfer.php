@@ -44,7 +44,9 @@ class OrderTransfer extends BaseObject implements ListInterface, CreateInterface
         'order_uuids' => 'nullable|array',
         'order_status' => 'nullable',
         'application_vendor_uuid' => 'nullable',
-        'during_order_created_at' => 'nullable'
+        'during_order_created_at' => 'nullable',
+        'description' => 'nullable',
+        'meta_data' => 'nullable|array',
     ];
 
     protected static $list_validator = [
