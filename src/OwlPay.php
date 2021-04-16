@@ -78,7 +78,7 @@ class OwlPay implements SecretInterface
             ];
         }
 
-        $input = array_filter($input);
+        // $input = array_filter($input);
 
         $order = new Order();
 
@@ -132,7 +132,7 @@ class OwlPay implements SecretInterface
             ];
         }
 
-        $data = array_filter($data);
+        // $data = array_filter($data);
 
         return $order->setData($data);
     }
