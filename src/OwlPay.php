@@ -94,6 +94,69 @@ class OwlPay implements SecretInterface
     }
 
     /**
+     * @param $order_serial
+     * @param $currency
+     * @param $total
+     * @param null $order_created_at
+     * @param null $description
+     * @param null $vendor
+     * @param array $meta_data
+     * @param false $is_force_create
+     * @return Order
+     */
+    public function mapOrderData($order_serial,
+                             $currency,
+                             $total,
+                             $order_created_at = null,
+                             $description = null,
+                             $vendor = null,
+                             $meta_data = [],
+                             $is_force_create = false): Order
+    {
+        $order = new Order();
+
+        $data = compact(
+            'order_serial',
+            'currency',
+            'total',
+            'order_created_at',
+            'description',
+            'vendor',
+            'meta_data',
+            'is_force_create'
+        );
+
+        if (!is_array($data['vendor'])) {
+            $data['vendor'] = [
+                'application_vendor_uuid' => $data['vendor'],
+            ];
+        }
+
+        $data = array_filter($data);
+
+        return $order->setData($data);
+    }
+
+    /**
+     * @param array $orders
+     * @return Order
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function createOrders(array $orders): Order
+    {
+        $order = new Order();
+
+        $order->createBatch($orders);
+
+        $this->checkResponse($order);
+
+        return $order;
+    }
+
+    /**
      * @param $query
      * @return Order
      * @throws NotFoundException

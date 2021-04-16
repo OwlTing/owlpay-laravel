@@ -7,18 +7,23 @@ namespace Owlting\OwlPay\Objects;
 use Illuminate\Support\Facades\Validator;
 use Owlting\OwlPay\Exceptions\MissingParameterException;
 use Owlting\OwlPay\Objects\Interfaces\CancelInterface;
+use Owlting\OwlPay\Objects\Interfaces\CreateBatchInterface;
 use Owlting\OwlPay\Objects\Interfaces\CreateInterface;
 use Owlting\OwlPay\Objects\Interfaces\DetailInterface;
 use Owlting\OwlPay\Objects\Interfaces\ListInterface;
 use Owlting\OwlPay\Objects\Interfaces\SecretInterface;
 use Owlting\OwlPay\Objects\Traits\CancelTrait;
+use Owlting\OwlPay\Objects\Traits\CreateBatchTrait;
 use Owlting\OwlPay\Objects\Traits\CreateTrait;
 use Owlting\OwlPay\Objects\Traits\DetailTrait;
 use Owlting\OwlPay\Objects\Traits\ListTrait;
 use Owlting\OwlPay\Objects\Traits\SecretTrait;
 
-class Order extends BaseObject implements CreateInterface, DetailInterface, SecretInterface, CancelInterface, ListInterface
+class Order extends BaseObject implements CreateBatchInterface, CreateInterface, DetailInterface, SecretInterface, CancelInterface, ListInterface
 {
+    protected $data = [];
+
+    use CreateBatchTrait;
     use CreateTrait;
     use DetailTrait;
     use CancelTrait;
@@ -29,7 +34,8 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
         self::SHOW_LIST => '/api/platform/tunnel/orders',
         self::CREATE => '/api/v1/platform/tunnel/orders',
         self::SHOW_DETAIL => '/api/v1/platform/tunnel/orders/%s',
-        self::CANCEL => '/api/v1/platform/tunnel/orders/cancel'
+        self::CANCEL => '/api/v1/platform/tunnel/orders/cancel',
+        self::CREATE_BATCH => '/api/v1/platform/tunnel/orders/batch'
     ];
 
     protected static $create_validator = [
@@ -67,6 +73,28 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
         'application_order_serials' => 'required_without:order_uuids|array'
     ];
 
+    protected static $create_batch_validator = [
+        'orders.*.order_serial' => 'required',
+        'orders.*.currency' => 'required',
+        'orders.*.total' => 'required',
+        'orders.*.is_force_create' => 'nullable|boolean',
+        'orders.*.description' => 'nullable',
+        'orders.*.meta_data' => 'nullable',
+        'orders.*.order_created_at' => 'nullable|date_format:Y-m-d\TH:i:sP',
+
+        'orders.*.vendor' => 'array',
+        'orders.*.vendor.name' => 'nullable',
+        'orders.*.vendor.email' => 'nullable',
+        "orders.*.vendor.remit_info.type" => 'nullable|in:basic',
+        "orders.*.vendor.remit_info.country_iso" => "nullable",
+        "orders.*.vendor.remit_info.bank_account_name" => "nullable",
+        "orders.*.vendor.remit_info.bank_code" => "nullable",
+        "orders.*.vendor.remit_info.bank_account" => "nullable",
+        "orders.*.vendor.remit_info.bank_subname" => "nullable",
+        "orders.*.vendor.remit_info.bank_name" => "nullable",
+        "orders.*.vendor.remit_info.bank_subcode" => "nullable",
+    ];
+
 
     /**
      * Order constructor.
@@ -95,6 +123,9 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
             case self::CANCEL:
                 $validates = self::$cancel_validator;
                 break;
+            case self::CREATE_BATCH:
+                $validates = self::$create_batch_validator;
+                break;
             default:
                 $validates = [];
         }
@@ -115,5 +146,25 @@ class Order extends BaseObject implements CreateInterface, DetailInterface, Secr
             }
             return $value;
         }
+    }
+
+    /**
+     * @param array $date
+     * @return Order
+     */
+    public function setData(array $data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * @param array $date
+     * @return Order
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }
