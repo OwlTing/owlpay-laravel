@@ -39,7 +39,7 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
     protected static $create_validator = [
         'name' => 'nullable|string',
         'uuid' => 'nullable|string',
-        'application_vendor_uuid' => 'nullable|string',
+        'application_vendor_uuid' => 'nullable',
         'email' => 'nullable|email',
         'description' => 'nullable',
         'remit_info.country_iso' => 'nullable',
@@ -65,7 +65,7 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
         'email' => 'nullable|email',
         'vendor.name' => 'nullable|string',
         'vendor.uuid' => 'nullable|string',
-        'vendor.application_vendor_uuid' => 'nullable|string',
+        'vendor.application_vendor_uuid' => 'nullable',
         'vendor.email' => 'nullable|email',
         'vendor.remit_info.country_iso' => 'nullable',
         'vendor.remit_info.type' => 'nullable',
