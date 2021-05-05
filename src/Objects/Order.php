@@ -45,6 +45,7 @@ class Order extends BaseObject implements CreateBatchInterface, CreateInterface,
         'description' => 'nullable',
         'is_force_create' => 'nullable|boolean',
         'order_created_at' => 'nullable',
+        'allow_transfer_time_at' => 'nullable',
         'meta_data' => 'nullable|array',
 
         'vendor.name' => 'nullable|string',
