@@ -36,96 +36,12 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
         self::INVITE => '/api/v1/platform/tunnel/vendor_invite',
     ];
 
-    protected static $create_validator = [
-        'name' => 'nullable|string',
-        'uuid' => 'nullable|string',
-        'application_vendor_uuid' => 'nullable',
-        'email' => 'nullable|email',
-        'description' => 'nullable',
-        'remit_info.country_iso' => 'nullable',
-        'remit_info.type' => 'nullable',
-        'remit_info.bank_name' => 'nullable',
-        'remit_info.bank_subname' => 'nullable',
-        'remit_info.bank_code' => 'nullable',
-        'remit_info.bank_subcode' => 'nullable',
-        'remit_info.bank_account' => 'nullable',
-        'remit_info.bank_account_name' => 'nullable',
-        'meta_data' => 'nullable|array',
-    ];
-
-    protected static $list_validator = [
-        'limit' => 'nullable',
-        'page' => 'nullable',
-        'order_by' => 'nullable',
-        'sort_by' => 'nullable',
-    ];
-
-    protected static $invite_validator = [
-        'is_owlpay_send_email' => 'boolean',
-        'email' => 'nullable|email',
-        'vendor.name' => 'nullable|string',
-        'vendor.uuid' => 'nullable|string',
-        'vendor.application_vendor_uuid' => 'nullable',
-        'vendor.email' => 'nullable|email',
-        'vendor.remit_info.country_iso' => 'nullable',
-        'vendor.remit_info.type' => 'nullable',
-        'vendor.remit_info.bank_name' => 'nullable',
-        'vendor.remit_info.bank_subname' => 'nullable',
-        'vendor.remit_info.bank_code' => 'nullable',
-        'vendor.remit_info.bank_subcode' => 'nullable',
-        'vendor.remit_info.bank_account' => 'nullable',
-        'vendor.remit_info.bank_account_name' => 'nullable',
-        'meta_data' => 'nullable|array',
-    ];
-
     /**
      * Vendor constructor.
      */
     public function __construct()
     {
         parent::__construct();
-    }
-
-    /**
-     * @param $event
-     * @param $input
-     * @return mixed
-     * @throws MissingParameterException
-     */
-    public static function validate($event, $input)
-    {
-        switch ($event) {
-            case self::CREATE:
-            case self::UPDATE:
-                $validates = self::$create_validator;
-                break;
-            case self::SHOW_VENDOR_ORDER_LIST:
-            case self::SHOW_LIST:
-                $validates = self::$list_validator;
-                break;
-            case self::INVITE:
-                $validates = self::$invite_validator;
-                break;
-            default:
-                $validates = [];
-        }
-
-        if (class_exists(Validator::class)) {
-            $validator = Validator::make($input, $validates);
-            if ($validator->fails()) {
-                throw new MissingParameterException($validator->errors()->first());
-            }
-            return $input;
-        } else {
-            foreach ($validates as $key => $validate) {
-                if (in_array('required', explode('|', $validate), true)) {
-                    if (!in_array($key, $input, true)) {
-                        throw new MissingParameterException("{$key} required");
-                    }
-                }
-            }
-            return $input;
-        }
     }
 
     /**
@@ -137,13 +53,11 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
      */
     public function invite($email, $args = []): Vendor
     {
-        $invite_input = array_merge($args, [
+        $input = array_merge($args, [
             'email' => $email
         ]);
 
         $url = self::getUrl(self::INVITE);
-
-        $input = $this::validate(self::INVITE, $invite_input);
 
         $response = $this->_client->post($url, [
             'headers' => [
@@ -179,15 +93,13 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
 
         $url = self::getUrl(self::SHOW_VENDOR_ORDER_LIST, $args);
 
-        $validated = $this::validate(self::SHOW_VENDOR_ORDER_LIST, $query);
-
         $this->_client = new Client();
 
         $response = $this->_client->get($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
             ],
-            'query' => $validated,
+            'query' => $query,
         ]);
 
         $this->_lastResponse = $this->_interpretResponse(

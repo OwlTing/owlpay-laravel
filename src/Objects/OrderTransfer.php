@@ -35,64 +35,12 @@ class OrderTransfer extends BaseObject implements ListInterface, CreateInterface
         self::CANCEL => '/api/v1/platform/tunnel/orders_transfer/%s/cancel'
     ];
 
-    protected static $create_validator = [
-        'vendor_uuid' => 'nullable',
-        'vendor_email' => 'nullable',
-        'order_serial' => 'nullable',
-        'order_serials' => 'nullable|array',
-        'order_uuid' => 'nullable',
-        'order_uuids' => 'nullable|array',
-        'order_status' => 'nullable',
-        'application_vendor_uuid' => 'nullable',
-        'during_order_created_at' => 'nullable',
-        'description' => 'nullable',
-        'meta_data' => 'nullable|array',
-    ];
-
-    protected static $list_validator = [
-        'limit' => 'nullable',
-        'page' => 'nullable',
-        'order_by' => 'nullable',
-        'sort_by' => 'nullable',
-    ];
-
     /**
      * OrderTransfer constructor.
      */
     public function __construct()
     {
         parent::__construct();
-    }
-
-    public static function validate($event, $value)
-    {
-        switch ($event) {
-            case self::CREATE:
-                $validates = self::$create_validator;
-                break;
-            case self::SHOW_LIST:
-                $validates = self::$list_validator;
-                break;
-            default:
-                $validates = [];
-        }
-
-        if (class_exists(Validator::class)) {
-            $validator = Validator::make($value, $validates);
-            if ($validator->fails()) {
-                throw new MissingParameterException($validator->errors()->first());
-            }
-            return $value;
-        } else {
-            foreach ($validates as $key => $validate) {
-                if (in_array('required', explode('|', $validate), true)) {
-                    if (!in_array($key, $value, true)) {
-                        throw new MissingParameterException("{$key} required");
-                    }
-                }
-            }
-            return $value;
-        }
     }
 
     /**
@@ -108,15 +56,13 @@ class OrderTransfer extends BaseObject implements ListInterface, CreateInterface
 
         $url = self::getUrl(self::SHOW_TRANSFER_ORDER_LIST, $args);
 
-        $validated = $this::validate(self::SHOW_TRANSFER_ORDER_LIST, $query);
-
         $this->_client = new Client();
 
         $response = $this->_client->get($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
             ],
-            'query' => $validated,
+            'query' => $query,
         ]);
 
         $this->_lastResponse = $this->_interpretResponse(
