@@ -6,15 +6,13 @@ trait UpdateTrait
 {
 
     /**
-     * @param $value
+     * @param $input
      * @param mixed ...$args
      * @return UpdateTrait
      */
-    public function update($value, ...$args)
+    public function update($input, ...$args)
     {
         $url = self::getUrl(self::UPDATE, $args);
-
-        $input = $this::validate(self::UPDATE, $value);
 
         $response = $this->_client->put($url, [
             'headers' => [

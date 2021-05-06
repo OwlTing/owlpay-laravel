@@ -16,7 +16,7 @@ trait CreateBatchTrait
             return $value->getData();
         }, $values);
 
-        $input = $this::validate(self::CREATE_BATCH, compact('orders'));
+        $input = compact('orders');
 
         $response = $this->_client->post($url, [
             'headers' => [

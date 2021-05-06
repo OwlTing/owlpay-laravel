@@ -16,15 +16,13 @@ Trait ListTrait
     {
         $url = self::getUrl(self::SHOW_LIST);
 
-        $validated = $this::validate(self::SHOW_LIST, $query);
-
         $this->_client = new Client();
 
         $response = $this->_client->get($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
             ],
-            'query' => $validated,
+            'query' => $query,
         ]);
 
         $this->_lastResponse = $this->_interpretResponse(
