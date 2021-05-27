@@ -38,57 +38,23 @@ class OwlPay implements SecretInterface
     }
 
     /**
-     * @param $order_serial
-     * @param $currency
-     * @param $total
-     * @param null $order_created_at
-     * @param null $description
-     * @param array|string $vendor
-     * @param array $meta_data
-     * @param bool $is_force_create
+     * @param  array  $args
+     *
      * @return Order
      * @throws NotFoundException
      * @throws OwlPayException
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function createOrder($order_serial,
-                                $currency,
-                                $total,
-                                $order_created_at = null,
-                                $allow_transfer_time_at = null,
-                                $description = null,
-                                $vendor = null,
-                                $meta_data = [],
-                                $is_force_create = false): Order
+    public function createOrder($args = []): Order
     {
-        $input = compact(
-            'order_serial',
-            'currency',
-            'total',
-            'order_created_at',
-            'allow_transfer_time_at',
-            'description',
-            'vendor',
-            'meta_data',
-            'is_force_create'
-        );
-
-        if (!is_array($input['vendor'])) {
-            $input['vendor'] = [
-                'application_vendor_uuid' => $input['vendor'],
-            ];
-        }
-
-        // $input = array_filter($input);
-
         $order = new Order();
 
         if (!empty($this->secret)) {
             $order->setSecret($this->secret);
         }
 
-        $order->create($input);
+        $order->create($args);
 
         $this->checkResponse($order);
 
@@ -96,49 +62,16 @@ class OwlPay implements SecretInterface
     }
 
     /**
-     * @param $order_serial
-     * @param $currency
-     * @param $total
-     * @param null $order_created_at
-     * @param null $description
-     * @param null $vendor
-     * @param array $meta_data
-     * @param false $is_force_create
+     *
+     * @param  array  $args
+     *
      * @return Order
      */
-    public function mapOrderData($order_serial,
-                             $currency,
-                             $total,
-                             $order_created_at = null,
-                             $allow_transfer_time_at = null,
-                             $description = null,
-                             $vendor = null,
-                             $meta_data = [],
-                             $is_force_create = false): Order
+    public function mapOrderData($args = []): Order
     {
         $order = new Order();
 
-        $data = compact(
-            'order_serial',
-            'currency',
-            'total',
-            'order_created_at',
-            'allow_transfer_time_at',
-            'description',
-            'vendor',
-            'meta_data',
-            'is_force_create'
-        );
-
-        if (!is_array($data['vendor'])) {
-            $data['vendor'] = [
-                'application_vendor_uuid' => $data['vendor'],
-            ];
-        }
-
-        // $data = array_filter($data);
-
-        return $order->setData($data);
+        return $order->setOrderData($args);
     }
 
     /**
@@ -284,44 +217,23 @@ class OwlPay implements SecretInterface
     }
 
     /**
-     * @param null $name
-     * @param null $uuid
-     * @param null $application_vendor_uuid
-     * @param null $email
-     * @param null $description
-     * @param array $remit_info
-     * @param array $meta_data
+     * @param  array  $args
+     *
      * @return Vendor
      * @throws NotFoundException
      * @throws OwlPayException
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function createVendor($uuid = null,
-                                 $application_vendor_uuid = null,
-                                 $name = null,
-                                 $email = null,
-                                 $description = null,
-                                 $remit_info = [],
-                                 $meta_data = []): Vendor
+    public function createVendor($args = []): Vendor
     {
-        $input = compact(
-            'name',
-            'uuid',
-            'application_vendor_uuid',
-            'email',
-            'description',
-            'remit_info',
-            'meta_data'
-        );
-
         $vendor = new Vendor();
 
         if (!empty($this->secret)) {
             $vendor->setSecret($this->secret);
         }
 
-        $vendor->create($input);
+        $vendor->create($args);
 
         $this->checkResponse($vendor);
 
@@ -330,43 +242,23 @@ class OwlPay implements SecretInterface
 
     /**
      * @param $uuid
-     * @param null $application_vendor_uuid
-     * @param null $name
-     * @param null $email
-     * @param null $description
-     * @param array $remit_info
-     * @param array $meta_data
+     * @param $args
+     *
      * @return Vendor
      * @throws NotFoundException
      * @throws OwlPayException
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function updateVendor($uuid,
-                                 $application_vendor_uuid = null,
-                                 $name = null,
-                                 $email = null,
-                                 $description = null,
-                                 $remit_info = [],
-                                 $meta_data = []): Vendor
+    public function updateVendor($uuid, $args): Vendor
     {
-        $input = compact(
-            'name',
-            'uuid',
-            'application_vendor_uuid',
-            'email',
-            'description',
-            'remit_info',
-            'meta_data'
-        );
-
         $vendor = new Vendor();
 
         if (!empty($this->secret)) {
             $vendor->setSecret($this->secret);
         }
 
-        $vendor->update($input, $uuid);
+        $vendor->update($args, $uuid);
 
         $this->checkResponse($vendor);
 

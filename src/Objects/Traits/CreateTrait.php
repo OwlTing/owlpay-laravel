@@ -4,19 +4,18 @@ namespace Owlting\OwlPay\Objects\Traits;
 
 use Owlting\OwlPay\Exceptions\InvalidRequestException;
 use Owlting\OwlPay\Exceptions\MissingParameterException;
+use Owlting\OwlPay\Objects\Order;
 
 trait CreateTrait
 {
 
     /**
-     * @param $value
+     * @param $input
      * @return CreateTrait
      */
-    public function create($value)
+    public function create($input)
     {
         $url = self::getUrl(self::CREATE);
-
-        $input = $this::validate(self::CREATE, $value);
 
         $response = $this->_client->post($url, [
             'headers' => [

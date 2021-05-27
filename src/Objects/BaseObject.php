@@ -98,6 +98,11 @@ abstract class BaseObject implements \ArrayAccess, \Countable, BaseInterface, \J
         return $this->_values;
     }
 
+    public function getData()
+    {
+        return $this->_values;
+    }
+
     /**
      * @param $event
      * @param array $routes

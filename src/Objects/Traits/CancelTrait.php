@@ -5,14 +5,12 @@ namespace Owlting\OwlPay\Objects\Traits;
 Trait CancelTrait
 {
     /**
-     * @param $value
+     * @param $input
      * @return CancelTrait
      */
-    public function cancel($value)
+    public function cancel($input)
     {
         $url = self::getUrl(self::CANCEL);
-
-        $input = $this::validate(self::CANCEL, $value);
 
         $response = $this->_client->put($url, [
             'headers' => [
