@@ -10,19 +10,29 @@ use Owlting\OwlPay\Objects\Interfaces\InviteInterface;
 use Owlting\OwlPay\Objects\Interfaces\ListInterface;
 use Owlting\OwlPay\Objects\Interfaces\SecretInterface;
 use Owlting\OwlPay\Objects\Interfaces\UpdateInterface;
+use Owlting\OwlPay\Objects\Interfaces\DeleteInterface;
 use Owlting\OwlPay\Objects\Traits\CreateTrait;
 use Owlting\OwlPay\Objects\Traits\DetailTrait;
 use Owlting\OwlPay\Objects\Traits\ListTrait;
 use Owlting\OwlPay\Objects\Traits\SecretTrait;
 use Owlting\OwlPay\Objects\Traits\UpdateTrait;
+use Owlting\OwlPay\Objects\Traits\DeleteTrait;
 
-class Vendor extends BaseObject implements CreateInterface, DetailInterface, InviteInterface, SecretInterface, ListInterface, UpdateInterface
+class Vendor extends BaseObject implements
+    CreateInterface,
+    DetailInterface,
+    InviteInterface,
+    SecretInterface,
+    ListInterface,
+    UpdateInterface,
+    DeleteInterface
 {
     use CreateTrait;
     use UpdateTrait;
     use DetailTrait;
     use SecretTrait;
     use ListTrait;
+    use DeleteTrait;
 
     const INVITE = 'invite';
     const SHOW_VENDOR_ORDER_LIST = 'vendor_orders';
@@ -33,6 +43,7 @@ class Vendor extends BaseObject implements CreateInterface, DetailInterface, Inv
         self::SHOW_DETAIL => '/api/v1/platform/tunnel/vendors/%s',
         self::SHOW_LIST => '/api/v1/platform/tunnel/vendors',
         self::SHOW_VENDOR_ORDER_LIST => '/api/v1/platform/tunnel/vendors/%s/orders',
+        self::DELETE => '/api/platform/tunnel/vendors/%s',
         self::INVITE => '/api/v1/platform/tunnel/vendor_invite',
     ];
 

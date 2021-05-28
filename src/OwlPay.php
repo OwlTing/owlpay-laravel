@@ -132,6 +132,10 @@ class OwlPay implements SecretInterface
             $order->setSecret($this->secret);
         }
 
+        if (false === strpos($order_uuid, 'ord_')) {
+            throw new OwlPayException('order prefix must be ord_');
+        }
+
         $order->detail($order_uuid);
 
         $this->checkResponse($order);
@@ -147,7 +151,7 @@ class OwlPay implements SecretInterface
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function cancelOrder($args): Order
+    public function cancelOrder($args = []): Order
     {
         $order = new Order();
 
@@ -201,12 +205,16 @@ class OwlPay implements SecretInterface
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function getVendorDetail($vendor_uuid): Vendor
+    public function getVendorDetail(string $vendor_uuid): Vendor
     {
         $vendor = new Vendor();
 
         if (!empty($this->secret)) {
             $vendor->setSecret($this->secret);
+        }
+
+        if (false === strpos($vendor_uuid, 'ven_')) {
+            throw new OwlPayException('vendor prefix must be ven_');
         }
 
         $vendor->detail($vendor_uuid);
@@ -241,7 +249,7 @@ class OwlPay implements SecretInterface
     }
 
     /**
-     * @param $uuid
+     * @param $vendor_uuid
      * @param $args
      *
      * @return Vendor
@@ -250,7 +258,7 @@ class OwlPay implements SecretInterface
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function updateVendor($uuid, $args): Vendor
+    public function updateVendor($vendor_uuid, $args = []): Vendor
     {
         $vendor = new Vendor();
 
@@ -258,7 +266,38 @@ class OwlPay implements SecretInterface
             $vendor->setSecret($this->secret);
         }
 
-        $vendor->update($args, $uuid);
+        if (false === strpos($vendor_uuid, 'ven_')) {
+            throw new OwlPayException('vendor prefix must be ven_');
+        }
+
+        $vendor->update($args, $vendor_uuid);
+
+        $this->checkResponse($vendor);
+
+        return $vendor;
+    }
+
+    /**
+     * @param $vendor_uuid
+     * @return Vendor
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function deleteVendor($vendor_uuid)
+    {
+        $vendor = new Vendor();
+
+        if (!empty($this->secret)) {
+            $vendor->setSecret($this->secret);
+        }
+
+        if (false === strpos($vendor_uuid, 'ven_')) {
+            throw new OwlPayException('vendor prefix must be ven_');
+        }
+
+        $vendor->delete($vendor_uuid);
 
         $this->checkResponse($vendor);
 
@@ -282,6 +321,10 @@ class OwlPay implements SecretInterface
             $vendor->setSecret($this->secret);
         }
 
+        if (false === strpos($vendor_uuid, 'ven_')) {
+            throw new OwlPayException('vendor prefix must be ven_');
+        }
+
         $vendor->vendor_orders($vendor_uuid, $query);
 
         $this->checkResponse($vendor);
@@ -297,7 +340,7 @@ class OwlPay implements SecretInterface
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function createVendorInvite($args): VendorInvite
+    public function createVendorInvite($args = []): VendorInvite
     {
         $vendorInvite = new VendorInvite();
 
@@ -320,7 +363,7 @@ class OwlPay implements SecretInterface
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function createOrdersTransfer($args): OrderTransfer
+    public function createOrdersTransfer($args = []): OrderTransfer
     {
         $orderTransfer = new OrderTransfer();
 
@@ -366,7 +409,7 @@ class OwlPay implements SecretInterface
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function getOrdersTransfer($order_transfer_uuid): OrderTransfer
+    public function getOrdersTransferDetail($order_transfer_uuid): OrderTransfer
     {
         $orderTransfer = new OrderTransfer();
 
@@ -375,79 +418,6 @@ class OwlPay implements SecretInterface
         }
 
         $orderTransfer->detail($order_transfer_uuid);
-
-        $this->checkResponse($orderTransfer);
-
-        return $orderTransfer;
-    }
-
-    /**
-     * @param $order_transfer_uuid
-     * @return OrderTransfer
-     * @throws Exceptions\MissingParameterException
-     * @throws Exceptions\RouteNotFoundException
-     * @throws NotFoundException
-     * @throws OwlPayException
-     * @throws UnauthorizedException
-     * @throws UnknownException
-     */
-    public function getOrdersTransferOrders($order_transfer_uuid): OrderTransfer
-    {
-        $orderTransfer = new OrderTransfer();
-
-        if (!empty($this->secret)) {
-            $orderTransfer->setSecret($this->secret);
-        }
-
-        $orderTransfer->transfer_orders($order_transfer_uuid, []);
-
-        $this->checkResponse($orderTransfer);
-
-        return $orderTransfer;
-    }
-
-    /**
-     * @param $order_transfer_uuid
-     * @return OrderTransfer
-     * @throws Exceptions\RouteNotFoundException
-     * @throws NotFoundException
-     * @throws OwlPayException
-     * @throws UnauthorizedException
-     * @throws UnknownException
-     */
-    public function confirmOrdersTransfer($order_transfer_uuid): OrderTransfer
-    {
-        $orderTransfer = new OrderTransfer();
-
-        if (!empty($this->secret)) {
-            $orderTransfer->setSecret($this->secret);
-        }
-
-        $orderTransfer->confirm($order_transfer_uuid);
-
-        $this->checkResponse($orderTransfer);
-
-        return $orderTransfer;
-    }
-
-    /**
-     * @param $order_transfer_uuid
-     * @return OrderTransfer
-     * @throws Exceptions\RouteNotFoundException
-     * @throws NotFoundException
-     * @throws OwlPayException
-     * @throws UnauthorizedException
-     * @throws UnknownException
-     */
-    public function cancelOrdersTransfer($order_transfer_uuid): OrderTransfer
-    {
-        $orderTransfer = new OrderTransfer();
-
-        if (!empty($this->secret)) {
-            $orderTransfer->setSecret($this->secret);
-        }
-
-        $orderTransfer->cancel($order_transfer_uuid);
 
         $this->checkResponse($orderTransfer);
 

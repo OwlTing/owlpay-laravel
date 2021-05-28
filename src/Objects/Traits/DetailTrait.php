@@ -22,7 +22,6 @@ Trait DetailTrait
             ]
         ]);
 
-
         $response_data = $this->_interpretResponse(
             $response->getBody()->getContents(),
             $response->getStatusCode(),

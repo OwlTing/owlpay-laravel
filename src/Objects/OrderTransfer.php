@@ -30,9 +30,6 @@ class OrderTransfer extends BaseObject implements ListInterface, CreateInterface
         self::SHOW_LIST => '/api/platform/tunnel/orders_transfer',
         self::CREATE => '/api/v1/platform/tunnel/orders_transfer',
         self::SHOW_DETAIL => '/api/v1/platform/tunnel/orders_transfer/%s',
-        self::SHOW_TRANSFER_ORDER_LIST => '/api/v1/platform/tunnel/orders_transfer/%s/orders',
-        self::CONFIRM => '/api/v1/platform/tunnel/orders_transfer/%s/confirm',
-        self::CANCEL => '/api/v1/platform/tunnel/orders_transfer/%s/cancel'
     ];
 
     /**
@@ -42,99 +39,4 @@ class OrderTransfer extends BaseObject implements ListInterface, CreateInterface
     {
         parent::__construct();
     }
-
-    /**
-     * @param $order_transfer_uuid
-     * @param array $query
-     * @return OrderTransfer
-     * @throws MissingParameterException
-     * @throws RouteNotFoundException
-     */
-    public function transfer_orders($order_transfer_uuid, array $query): OrderTransfer
-    {
-        $args = [$order_transfer_uuid];
-
-        $url = self::getUrl(self::SHOW_TRANSFER_ORDER_LIST, $args);
-
-        $this->_client = new Client();
-
-        $response = $this->_client->get($url, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
-            ],
-            'query' => $query,
-        ]);
-
-        $this->_lastResponse = $this->_interpretResponse(
-            $response->getBody()->getContents(),
-            $response->getStatusCode(),
-            $response->getHeaders()
-        );
-
-        $data = [
-            'data' => $this->_lastResponse['data'] ?? [],
-            'pagination' => $this->_lastResponse['pagination'] ?? [],
-        ];
-
-        $this->_values = $data;
-
-        return $this;
-    }
-
-    /**
-     * @param $args
-     * @return $this
-     * @throws RouteNotFoundException
-     */
-    public function confirm(...$args): OrderTransfer
-    {
-        $url = self::getUrl(self::CONFIRM, $args);
-
-        $response = $this->_client->put($url, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
-            ]
-        ]);
-
-        $response_data = $this->_interpretResponse(
-            $response->getBody()->getContents(),
-            $response->getStatusCode(),
-            $response->getHeaders()
-        );
-
-        $this->_lastResponse = $response_data;
-
-        $this->_values = $this->_lastResponse['data'] ?? [];
-
-        return $this;
-    }
-
-    /**
-     * @param $args
-     * @return $this
-     * @throws RouteNotFoundException
-     */
-    public function cancel(...$args): OrderTransfer
-    {
-        $url = self::getUrl(self::CANCEL, $args);
-
-        $response = $this->_client->put($url, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
-            ]
-        ]);
-
-        $response_data = $this->_interpretResponse(
-            $response->getBody()->getContents(),
-            $response->getStatusCode(),
-            $response->getHeaders()
-        );
-
-        $this->_lastResponse = $response_data;
-
-        $this->_values = $this->_lastResponse['data'] ?? [];
-
-        return $this;
-    }
-
 }

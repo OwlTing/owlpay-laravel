@@ -1,28 +1,20 @@
 <?php
 namespace Owlting\OwlPay\Objects\Traits;
 
-trait CreateBatchTrait
+trait DeleteTrait
 {
-
     /**
-     * @param $values
-     * @return CreateBatchTrait
+     * @param mixed ...$args
+     * @return DeleteTrait
      */
-    public function createBatch($values)
+    public function delete(...$args)
     {
-        $url = self::getUrl(self::CREATE_BATCH);
+        $url = self::getUrl(self::DELETE, $args);
 
-        $orders = array_map(function ($value) {
-            return $value->getOrderData();
-        }, $values);
-
-        $input = compact('orders');
-
-        $response = $this->_client->post($url, [
+        $response = $this->_client->delete($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
-            ],
-            'json' => $input
+            ]
         ]);
 
         $response_data = $this->_interpretResponse(
