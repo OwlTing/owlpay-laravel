@@ -103,6 +103,13 @@ abstract class BaseObject implements \ArrayAccess, \Countable, BaseInterface, \J
         return $this->_values;
     }
 
+    public function setData($data = [])
+    {
+        $this->_values = $data;
+
+        return $this;
+    }
+
     /**
      * @param $event
      * @param array $routes
