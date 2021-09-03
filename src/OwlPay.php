@@ -132,10 +132,6 @@ class OwlPay implements SecretInterface
             $order->setSecret($this->secret);
         }
 
-        if (false === strpos($order_uuid, 'ord_')) {
-            throw new OwlPayException('order prefix must be ord_');
-        }
-
         $order->detail($order_uuid);
 
         $this->checkResponse($order);
