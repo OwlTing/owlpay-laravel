@@ -1,5 +1,5 @@
 {
-    "name": "owlting/owlpay-php",
+    "name": "owlting/owlpay-laravel",
     "description": "Owlpay SDK.",
     "type": "library",
     "authors": [
