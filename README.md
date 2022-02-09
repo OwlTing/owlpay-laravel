@@ -18,7 +18,7 @@ This package is developing now, if we have a huge changes, the semi version is g
       "repositories": [
         {
           "type": "vcs",
-          "url": "git@github.com:OwlTing/owlpay-php.git",
+          "url": "git@github.com:OwlTing/owlpay-laravel.git",
           "no-api": true
         }
       ]
@@ -27,7 +27,7 @@ This package is developing now, if we have a huge changes, the semi version is g
 
 Next, install the package.
 ```bash
-$ composer require owlting/owlpay-php
+$ composer require owlting/owlpay-laravel
 ```
 
 Also, you need to publish and configure the environment keys in your application.
