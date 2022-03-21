@@ -15,6 +15,7 @@ trait UpdateTrait
         $url = self::getUrl(self::UPDATE, $args);
 
         $response = $this->_client->put($url, [
+            'version' => 1.0,
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
             ],

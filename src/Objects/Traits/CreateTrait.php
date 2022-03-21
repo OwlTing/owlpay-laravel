@@ -18,6 +18,7 @@ trait CreateTrait
         $url = self::getUrl(self::CREATE);
 
         $response = $this->_client->post($url, [
+            'version' => 1.0,
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
             ],
