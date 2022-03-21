@@ -12,6 +12,7 @@ trait DeleteTrait
         $url = self::getUrl(self::DELETE, $args);
 
         $response = $this->_client->delete($url, [
+            'version' => 1.0,
             'headers' => [
                 'Authorization' => 'Bearer ' . (empty($this->secret) ? config('owlpay.application_secret') : $this->secret),
             ]
