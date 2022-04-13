@@ -50,13 +50,17 @@ $order = Order::first();
 $meta_data = [];
 
 OwlPay::createOrder([
-    'order_serial' => $order->order_number, // OTR2020120700004
+    'application_order_uuid' => $order->order_number, // order number from your application
     'currency' => $order->currency, // TWD
     'total' => $order->total, // paid price, 100.00
-    'vendor_uuid' => $vendor_uuid ?? null, // owlpay vendor uuid
+    'application_vendor_uuid' => $$order->vendor_number, // vendor number from your application
     'meta_data' => $meta_data, // extra information with key-value format
 ]);
 ```
+
+### Read more
+
+[See OwlPay API Document](http://owlpay-external-doc.s3-website-ap-northeast-1.amazonaws.com/)
 
 
 
