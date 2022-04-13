@@ -23,9 +23,9 @@ use Owlting\OwlPay\OwlPay as OwlPayItem;
  *
  * @method static \Owlting\OwlPay\Objects\VendorInvite createVendorInvite($args = [])
  *
- * @method static \Owlting\OwlPay\Objects\OrderTransfer createOrdersTransfer($args = [])
- * @method static \Owlting\OwlPay\Objects\OrderTransfer getOrdersTransfers($query = [])
- * @method static \Owlting\OwlPay\Objects\OrderTransfer getOrdersTransferDetail(string $order_transfer_uuid)
+ * @method static \Owlting\OwlPay\Objects\OrdersReconciliation createOrdersReconciliation($args = [])
+ * @method static \Owlting\OwlPay\Objects\OrdersReconciliation getOrdersReconciliations($query = [])
+ * @method static \Owlting\OwlPay\Objects\OrdersReconciliation getOrdersReconciliationDetail(string $orders_reconciliation_uuid)
  *
  * Class OwlPay
  * @package Owlting\OwlPay\Facades

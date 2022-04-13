@@ -10,7 +10,7 @@ use Owlting\OwlPay\Exceptions\ClassNotFoundException;
 use Owlting\OwlPay\Objects\BaseObject;
 use Owlting\OwlPay\Objects\Interfaces\SecretInterface;
 use Owlting\OwlPay\Objects\Order;
-use Owlting\OwlPay\Objects\OrderTransfer;
+use Owlting\OwlPay\Objects\OrdersReconciliation;
 use Owlting\OwlPay\Objects\Traits\SecretTrait;
 use Owlting\OwlPay\Objects\Vendor;
 use Owlting\OwlPay\Objects\VendorInvite;
@@ -353,71 +353,71 @@ class OwlPay implements SecretInterface
 
     /**
      * @param $args
-     * @return OrderTransfer
+     * @return OrdersReconciliation
      * @throws NotFoundException
      * @throws OwlPayException
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function createOrdersTransfer($args = []): OrderTransfer
+    public function createOrdersReconciliation($args = []): OrdersReconciliation
     {
-        $orderTransfer = new OrderTransfer();
+        $ordersReconciliation = new OrdersReconciliation();
 
         if (!empty($this->secret)) {
-            $orderTransfer->setSecret($this->secret);
+            $ordersReconciliation->setSecret($this->secret);
         }
 
-        $orderTransfer->create($args);
+        $ordersReconciliation->create($args);
 
-        $this->checkResponse($orderTransfer);
+        $this->checkResponse($ordersReconciliation);
 
-        return $orderTransfer;
+        return $ordersReconciliation;
     }
 
     /**
      * @param $query
-     * @return OrderTransfer
+     * @return OrdersReconciliation
      * @throws NotFoundException
      * @throws OwlPayException
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function getOrdersTransfers($query = []): OrderTransfer
+    public function getOrdersReconciliations($query = []): OrdersReconciliation
     {
-        $orderTransfer = new OrderTransfer();
+        $ordersReconciliation = new OrdersReconciliation();
 
         if (!empty($this->secret)) {
-            $orderTransfer->setSecret($this->secret);
+            $ordersReconciliation->setSecret($this->secret);
         }
 
-        $orderTransfer->all($query);
+        $ordersReconciliation->all($query);
 
-        $this->checkResponse($orderTransfer);
+        $this->checkResponse($ordersReconciliation);
 
-        return $orderTransfer;
+        return $ordersReconciliation;
     }
 
     /**
-     * @param $order_transfer_uuid
-     * @return OrderTransfer
+     * @param $orders_reconciliation_uuid
+     * @return OrdersReconciliation
      * @throws NotFoundException
      * @throws OwlPayException
      * @throws UnauthorizedException
      * @throws UnknownException
      */
-    public function getOrdersTransferDetail($order_transfer_uuid): OrderTransfer
+    public function getOrdersReconciliationDetail($orders_reconciliation_uuid): OrdersReconciliation
     {
-        $orderTransfer = new OrderTransfer();
+        $ordersReconciliation = new OrdersReconciliation();
 
         if (!empty($this->secret)) {
-            $orderTransfer->setSecret($this->secret);
+            $ordersReconciliation->setSecret($this->secret);
         }
 
-        $orderTransfer->detail($order_transfer_uuid);
+        $ordersReconciliation->detail($orders_reconciliation_uuid);
 
-        $this->checkResponse($orderTransfer);
+        $this->checkResponse($ordersReconciliation);
 
-        return $orderTransfer;
+        return $ordersReconciliation;
     }
 
     /**
