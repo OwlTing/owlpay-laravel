@@ -321,7 +321,7 @@ class OwlPay implements SecretInterface
             throw new OwlPayException('vendor prefix must be ven_');
         }
 
-        $vendor->vendor_orders($vendor_uuid, $query);
+        $vendor->orders($vendor_uuid, $query);
 
         $this->checkResponse($vendor);
 
@@ -349,6 +349,54 @@ class OwlPay implements SecretInterface
         $this->checkResponse($vendorInvite);
 
         return $vendorInvite;
+    }
+
+    /**
+     * Apply vendor remit info
+     * @param $vendor_uuid
+     * 
+     * You can find fields by your vendor country and applicate type on OwlPay AML dynamic fields tools
+     * OwlPay AML dynamic fields tools: https://owlting.github.io/owlting-aml-schema-tool/
+     *
+     * @param string $vendor_uuid
+     * @param array $args
+     * @return Vendor
+     */
+    public function createVendorRemitInfo($vendor_uuid, $args = [])
+    {
+        $vendor = new Vendor();
+
+        if (!empty($this->secret)) {
+            $vendor->setSecret($this->secret);
+        }        
+
+        $vendor->applyRemitInfo($vendor_uuid, $args);
+
+        $this->checkResponse($vendor);
+
+        return $vendor;
+    }
+
+    /**
+     * Get vendor remit info
+     *
+     * @param string $vendor_uuid
+     * @param array $args
+     * @return Vendor
+     */
+    public function getVendorRemitInfo($vendor_uuid, $args = [])
+    {
+        $vendor = new Vendor();
+        
+        if (!empty($this->secret)) {
+            $vendor->setSecret($this->secret);
+        }
+
+        $vendor->remit_info($vendor_uuid, $args);
+
+        $this->checkResponse($vendor);
+
+        return $vendor;
     }
 
     /**

@@ -16,8 +16,6 @@ Trait ListTrait
     {
         $url = self::getUrl(self::SHOW_LIST);
 
-        $this->_client = new Client();
-
         $response = $this->_client->get($url, [
             'version' => 1.0,
             'headers' => [
