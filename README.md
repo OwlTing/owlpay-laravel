@@ -1,35 +1,41 @@
 # OwlPay Laravel SDK
-OwlPay SDK provides ease to use APIs and internal importing for PHP, it's willing provide several use cases following.
+OwlPay Laravel SDK provides ease to use APIs and internal importing for Laravel, it's provide several use cases following.
 
 ## Warning
 This package is developing now, if we have a huge changes, the semi version is going to modify.
 
 ## Requirements
-* PHP 7 or later.
-* Laravel
-* curl extension
-* json extension
-* mbstring extension
+* PHP >= 7.3
+* PHP extension required
+  * curl extension
+  * json extension
+  * mbstring extension
+* Laravel >= 5.4
 
 ## Installation
 Also, you need to publish and configure the environment keys in your application.
 ```bash
 $ php artisan vendor:publish --provider="Owlting\OwlPay\Providers\OwlPayServiceProvider"
 ```
-If you are using laravel version less than 5.4, you need to manually install the provider in app.php
 
 Finally, set the environment variables.
 
 ```dotenv
 OWLPAY_API_URL=https://api.owlpay.com
-OWLPAY_APPLICATION_SECRET=MY_SECRET.....
+OWLPAY_APPLICATION_SECRET=<OWLPAY_APPLICATION_SECRET>
 ```
+
+Get `OWLPAY_APPLICATION_SECRET` according to the tutorial article
+https://docs.owlpay.com/owlpay-guideline/zh/page-introduction/role_company/developer.html#_4-%E8%A8%AD%E5%AE%9A-api-key
+
 ### Send order to OwlPay
 ```php
 use Owlting\OwlPay\Facades\OwlPay;
 
 $order = Order::first();
-$meta_data = [];
+$meta_data = [
+  'sku' => 'SKU#1234',
+];
 
 OwlPay::createOrder([
     'application_order_uuid' => $order->order_number, // order number from your application
