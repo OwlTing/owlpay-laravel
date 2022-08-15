@@ -12,24 +12,6 @@ This package is developing now, if we have a huge changes, the semi version is g
 * mbstring extension
 
 ## Installation
-### By composer
-```json
-    {
-      "repositories": [
-        {
-          "type": "vcs",
-          "url": "git@github.com:OwlTing/owlpay-laravel.git",
-          "no-api": true
-        }
-      ]
-    }
-```
-
-Next, install the package.
-```bash
-$ composer require owlting/owlpay-laravel
-```
-
 Also, you need to publish and configure the environment keys in your application.
 ```bash
 $ php artisan vendor:publish --provider="Owlting\OwlPay\Providers\OwlPayServiceProvider"
@@ -60,7 +42,7 @@ OwlPay::createOrder([
 
 ### Read more
 
-[See OwlPay API Document](http://owlpay-external-doc.s3-website-ap-northeast-1.amazonaws.com/)
+[See OwlPay API Document](https://docs.owlpay.com/api/)
 
 
 
