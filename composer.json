@@ -1,0 +1,45 @@
+{
+    "name": "owlting/owlpay-laravel",
+    "description": "Owlpay SDK.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Eric",
+            "email": "eric_liao@owlting.com"
+        },
+        {
+            "name": "Maras",
+            "email": "maraschen@owlting.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Owlting\\OwlPay\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7",
+        "guzzlehttp/guzzle": ">=6.2",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.5"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Owlting\\OwlPay\\Providers\\OwlPayServiceProvider"
+            ],
+            "facades": [
+                "Owlting\\OwlPay\\Facades\\OwlPay"
+            ]
+        }
+    }
+}
