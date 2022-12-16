@@ -26,7 +26,7 @@ class OrdersReconciliation extends BaseObject implements ListInterface, CreateIn
     const CONFIRM = 'confirm';
 
     protected static $url_map = [
-        self::SHOW_LIST => '/api/platform/tunnel/orders_reconciliation',
+        self::SHOW_LIST => '/api/v1/platform/tunnel/orders_reconciliation',
         self::CREATE => '/api/v1/platform/tunnel/orders_reconciliation',
         self::SHOW_DETAIL => '/api/v1/platform/tunnel/orders_reconciliation/%s',
     ];

@@ -40,14 +40,14 @@ class Vendor extends BaseObject implements
     const SHOW_VENDOR_REMIT_INFO_LIST = 'vendor_remit_info';
 
     protected static $url_map = [
-        self::CREATE => '/api/platform/tunnel/vendors',
-        self::UPDATE => '/api/platform/tunnel/vendors/%s',
+        self::CREATE => '/api/v1/platform/tunnel/vendors',
+        self::UPDATE => '/api/v1/platform/tunnel/vendors/%s',
         self::SHOW_DETAIL => '/api/v1/platform/tunnel/vendors/%s',
         self::SHOW_LIST => '/api/v1/platform/tunnel/vendors',
         self::SHOW_VENDOR_ORDER_LIST => '/api/v1/platform/tunnel/vendors/%s/orders',
         self::SHOW_VENDOR_REMIT_INFO_LIST => '/api/v1/platform/tunnel/vendors/%s/remit_info',
         self::APPLY_VENDOR_REMIT_INFO => '/api/v1/platform/tunnel/vendors/%s/remit_info/apply',
-        self::DELETE => '/api/platform/tunnel/vendors/%s',
+        self::DELETE => '/api/v1/platform/tunnel/vendors/%s',
         self::INVITE => '/api/v1/platform/tunnel/vendor_invite',
     ];
 

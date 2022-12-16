@@ -31,7 +31,7 @@ class Order extends BaseObject implements CreateBatchInterface, CreateInterface,
     use ListTrait;
 
     protected static $url_map = [
-        self::SHOW_LIST => '/api/platform/tunnel/orders',
+        self::SHOW_LIST => '/api/v1/platform/tunnel/orders',
         self::CREATE => '/api/v1/platform/tunnel/orders',
         self::SHOW_DETAIL => '/api/v1/platform/tunnel/orders/%s',
         self::CANCEL => '/api/v1/platform/tunnel/orders/cancel',
