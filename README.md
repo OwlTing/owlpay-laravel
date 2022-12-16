@@ -48,7 +48,7 @@ OwlPay::createOrder([
 
 ### Read more
 
-[See OwlPay API Document](https://docs.owlpay.com/api/)
+[See OwlPay API Document](https://developers.owlpay.com/)
 
 
 
