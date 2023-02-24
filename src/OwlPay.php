@@ -7,6 +7,7 @@ use Owlting\OwlPay\Exceptions\OwlPayException;
 use Owlting\OwlPay\Exceptions\UnauthorizedException;
 use Owlting\OwlPay\Exceptions\UnknownException;
 use Owlting\OwlPay\Exceptions\ClassNotFoundException;
+use Owlting\OwlPay\Objects\Application;
 use Owlting\OwlPay\Objects\BaseObject;
 use Owlting\OwlPay\Objects\Interfaces\SecretInterface;
 use Owlting\OwlPay\Objects\Order;
@@ -35,6 +36,28 @@ class OwlPay implements SecretInterface
             throw new self::$errors_map[10404];
 
         return new $object();
+    }
+
+    /**
+     * @return Application
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function getApplication()
+    {
+        $application = new Application();
+
+        if (!empty($this->secret)) {
+            $application->setSecret($this->secret);
+        }
+
+        $application->show();
+
+        $this->checkResponse($application);
+
+        return $application;
     }
 
     /**
@@ -354,7 +377,7 @@ class OwlPay implements SecretInterface
     /**
      * Apply vendor remit info
      * @param $vendor_uuid
-     * 
+     *
      * You can find fields by your vendor country and applicate type on OwlPay AML dynamic fields tools
      * OwlPay AML dynamic fields tools: https://owlting.github.io/owlting-aml-schema-tool/
      *
@@ -368,7 +391,7 @@ class OwlPay implements SecretInterface
 
         if (!empty($this->secret)) {
             $vendor->setSecret($this->secret);
-        }        
+        }
 
         $vendor->applyRemitInfo($vendor_uuid, $args);
 
@@ -387,7 +410,7 @@ class OwlPay implements SecretInterface
     public function getVendorRemitInfo($vendor_uuid, $args = [])
     {
         $vendor = new Vendor();
-        
+
         if (!empty($this->secret)) {
             $vendor->setSecret($this->secret);
         }

@@ -7,6 +7,8 @@ use Owlting\OwlPay\Objects\Vendor;
 use Owlting\OwlPay\OwlPay as OwlPayItem;
 
 /**
+ * @method static \Owlting\OwlPay\Objects\Applcation getApplication()
+ *
  * @method static \Owlting\OwlPay\Objects\Order createOrder($args = [])
  * @method static \Owlting\OwlPay\Objects\Order createOrders($orders = [])
  * @method static \Owlting\OwlPay\Objects\Order getOrders($query = [])
