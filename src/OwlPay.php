@@ -414,7 +414,7 @@ class OwlPay implements SecretInterface
      * @param array $args
      * @return Vendor
      */
-    public function createVendorRemitInfo($vendor_uuid, $args = [])
+    public function applyVendorRemitInfo($vendor_uuid, $args = [])
     {
         $vendor = new Vendor();
 
@@ -433,10 +433,10 @@ class OwlPay implements SecretInterface
      * Get vendor remit info
      *
      * @param string $vendor_uuid
-     * @param array $args
+     * @param array $query
      * @return Vendor
      */
-    public function getVendorRemitInfo($vendor_uuid, $args = [])
+    public function getVendorRemitInfo($vendor_uuid, $query = [])
     {
         $vendor = new Vendor();
 
@@ -444,7 +444,7 @@ class OwlPay implements SecretInterface
             $vendor->setSecret($this->secret);
         }
 
-        $vendor->remit_info($vendor_uuid, $args);
+        $vendor->remit_info($vendor_uuid, $query);
 
         $this->checkResponse($vendor);
 
