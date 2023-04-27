@@ -48,7 +48,7 @@ OwlPay::createOrder([
 
 ### Read more
 
-[CHANGELOG] (https://github.com/OwlTing/owlpay-laravel/wiki/CHANGELOG)
+[CHANGELOG](https://github.com/OwlTing/owlpay-laravel/wiki/CHANGELOG)  
 [See OwlPay API Document](https://developers.owlpay.com/)
 
 
