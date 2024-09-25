@@ -114,6 +114,35 @@ class OwlPay implements SecretInterface
     }
 
     /**
+     * @param $order_uuid
+     * @param $args
+     *
+     * @return Order
+     * @throws NotFoundException
+     * @throws OwlPayException
+     * @throws UnauthorizedException
+     * @throws UnknownException
+     */
+    public function associateUpdateOrder($order_uuid, $args = []): Order
+    {
+        $order = new Order();
+
+        if (!empty($this->secret)) {
+            $order->setSecret($this->secret);
+        }
+
+        if (false === strpos($order_uuid, 'ord_')) {
+            throw new OwlPayException('Order prefix must be ord_');
+        }
+
+        $order->associateUpdate($args, $order_uuid);
+
+        $this->checkResponse($order);
+
+        return $order;
+    }
+
+    /**
      *
      * @param  array  $args
      *

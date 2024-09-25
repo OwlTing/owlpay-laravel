@@ -12,6 +12,7 @@ use Owlting\OwlPay\Objects\Interfaces\CreateInterface;
 use Owlting\OwlPay\Objects\Interfaces\DetailInterface;
 use Owlting\OwlPay\Objects\Interfaces\ListInterface;
 use Owlting\OwlPay\Objects\Interfaces\SecretInterface;
+use Owlting\OwlPay\Objects\Traits\AssociateUpdateTrait;
 use Owlting\OwlPay\Objects\Traits\CancelTrait;
 use Owlting\OwlPay\Objects\Traits\CreateBatchTrait;
 use Owlting\OwlPay\Objects\Traits\CreateTrait;
@@ -31,6 +32,7 @@ class Order extends BaseObject implements CreateBatchInterface, CreateInterface,
     use SecretTrait;
     use ListTrait;
     use UpdateTrait;
+    use AssociateUpdateTrait;
 
     protected static $url_map = [
         self::SHOW_LIST => '/api/v1/platform/tunnel/orders',
@@ -39,6 +41,7 @@ class Order extends BaseObject implements CreateBatchInterface, CreateInterface,
         self::CANCEL => '/api/v1/platform/tunnel/orders/cancel',
         self::CREATE_BATCH => '/api/v1/platform/tunnel/orders/batch',
         self::UPDATE => '/api/v1/platform/tunnel/orders/%s',
+        self::ASSOCIATE_UPDATE => '/api/v1/platform/tunnel/orders/%s/associate_orders',
     ];
 
     /**

@@ -16,6 +16,7 @@ abstract class BaseObject implements \ArrayAccess, \Countable, BaseInterface, \J
     const SHOW_DETAIL = 'detail';
     const DELETE = 'delete';
     const CREATE_BATCH = 'create_batch';
+    const ASSOCIATE_UPDATE = 'associate_update';
 
     protected static $url_map = [];
 
